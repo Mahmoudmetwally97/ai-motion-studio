@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>معرض ريلز Remotion | شاهد ونزّل الفيديوهات على هاتفك</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card: #121520;
+      --border: #222638;
+      --accent: #6366f1;
+      --accent-pink: #ec4899;
+      --accent-yellow: #facc15;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Cairo', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px 12px 60px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 10px 0;
+    }
+
+    .badge-top {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #a5b4fc;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      max-width: 480px;
+      background: #10131d;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 8px 4px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .video-card {
+      width: 100%;
+      max-width: 360px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .video-container {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-info {
+      width: 100%;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .video-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .video-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .download-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #ffffff;
+      padding: 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+      border: none;
+      cursor: pointer;
+    }
+
+    .download-btn:active {
+      transform: scale(0.98);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 15px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge-top">⚡ Remotion Pure MP4 Engine</div>
+    <h1>معرض الفيديوهات المصدرة</h1>
+    <p class="subtitle">فيديوهات ريلز بدقة 1080×1920 وبخط Cairo العربي الأصيل جاهزة للتشغيل والتنزيل على هاتفك مباشرة.</p>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchVideo('faceless')">🎬 فكرة لريل</button>
+    <button class="tab-btn" onclick="switchVideo('product')">🛍️ منتجلي</button>
+    <button class="tab-btn" onclick="switchVideo('wisdom')">🕌 اقتباسات</button>
+  </div>
+
+  <!-- Video Card 1: Faceless Story Reel -->
+  <div class="video-card" id="card-faceless">
+    <div class="video-container">
+      <video id="vid-faceless" controls playsinline loop preload="auto" poster="">
+        <source src="faceless.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+    </div>
+    <div class="card-info">
+      <div class="video-title">قالب «فكرة لريل» (Storytelling & Karaoke)</div>
+      <div class="video-desc">هوك صادم بفيزياء النابض ➔ كاراوكي عربي نيون كلمة بكلمة مع إيموجي وموجات صوتية ➔ شاشة نهاية ودعوة تفاعل CTA.</div>
+      <a href="faceless.mp4" download="faceless-reel.mp4" class="download-btn">
+        <span>📥 تنزيل الفيديو إلى هاتفك (MP4)</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Video Card 2: Product Showcase -->
+  <div class="video-card" id="card-product" style="display: none;">
+    <div class="video-container">
+      <video id="vid-product" controls playsinline loop preload="none">
+        <source src="product.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="card-info">
+      <div class="video-title">قالب «منتجلي» (E-Commerce 3D Showcase)</div>
+      <div class="video-desc">بطاقة زجاجية فاخرة عائمة، شارة الخصم، مميزات تظهر بالتتابع بنقاط فحص خضراء، وزر الشراء المتوهج.</div>
+      <a href="product.mp4" download="product-reel.mp4" class="download-btn">
+        <span>📥 تنزيل الفيديو إلى هاتفك (MP4)</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Video Card 3: Wisdom & Quotes -->
+  <div class="video-card" id="card-wisdom" style="display: none;">
+    <div class="video-container">
+      <video id="vid-wisdom" controls playsinline loop preload="none">
+        <source src="wisdom.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="card-info">
+      <div class="video-title">قالب «اقتباسات وحكم» (Royal Wisdom)</div>
+      <div class="video-desc">خط عربي أصيل، تكبير سينمائي بطيء، ذرات ذهبية متلألئة في خلفية ليلية وقورة مع ظهور الكلمات بالتتابع.</div>
+      <a href="wisdom.mp4" download="wisdom-reel.mp4" class="download-btn">
+        <span>📥 تنزيل الفيديو إلى هاتفك (MP4)</span>
+      </a>
+    </div>
+  </div>
+
+  <a href="./index.html" class="back-link">
+    <span>← العودة إلى استوديو التعديل الحي</span>
+  </a>
+
+  <script>
+    function switchVideo(type) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      document.querySelectorAll('.video-card').forEach(c => {
+        c.style.display = 'none';
+        const v = c.querySelector('video');
+        if (v) v.pause();
+      });
+
+      const activeCard = document.getElementById('card-' + type);
+      if (activeCard) {
+        activeCard.style.display = 'flex';
+        const activeVid = activeCard.querySelector('video');
+        if (activeVid) {
+          activeVid.play().catch(() => {});
+        }
+      }
+    }
+  </script>
+</body>
+</html>
