@@ -2,29 +2,31 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Motion Studio | استوديو الموشن جرافيك وصناعة الفيديو بالذكاء الاصطناعي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AI Motion Studio Pro | منصة إنتاج الريلز والموشن جرافيك بالذكاء الاصطناعي</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,400&family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0a0b10;
-      --bg-panel: #12141c;
-      --bg-card: #181b26;
-      --border: #262b3d;
+      --bg-dark: #08090d;
+      --bg-panel: #10121a;
+      --bg-card: #161824;
+      --border: #232738;
       --accent: #6366f1;
-      --accent-glow: rgba(99, 102, 241, 0.4);
+      --accent-glow: rgba(99, 102, 241, 0.45);
       --accent-secondary: #ec4899;
-      --text-main: #f1f5f9;
+      --accent-yellow: #facc15;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --success: #10b981;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -34,41 +36,42 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     /* Top Navigation */
     header {
       background: var(--bg-panel);
       border-bottom: 1px solid var(--border);
-      padding: 12px 24px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      min-height: 60px;
+      z-index: 50;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand-logo {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
       background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 18px;
-      box-shadow: 0 0 15px var(--accent-glow);
+      font-size: 20px;
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
     .brand-title {
-      font-weight: 800;
+      font-weight: 900;
       font-size: 1.15rem;
       letter-spacing: -0.5px;
     }
@@ -80,25 +83,32 @@
       border: 1px solid rgba(99, 102, 241, 0.3);
       padding: 2px 8px;
       border-radius: 9999px;
-      font-weight: 600;
+      font-weight: 700;
+    }
+
+    .badge-pro {
+      background: rgba(236, 72, 153, 0.2);
+      color: #f472b6;
+      border-color: rgba(236, 72, 153, 0.4);
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    /* Main Workspace */
+    /* Main Workspace Layout */
     .workspace {
       display: grid;
-      grid-template-columns: 340px 1fr 340px;
+      grid-template-columns: 330px 1fr 340px;
       flex: 1;
-      height: calc(100vh - 64px);
+      height: calc(100vh - 60px);
       overflow: hidden;
     }
 
-    /* Left Panel: Templates & Presets */
+    /* Panels */
     .panel {
       background: var(--bg-panel);
       border-left: 1px solid var(--border);
@@ -113,14 +123,14 @@
     }
 
     .panel-header {
-      padding: 16px;
-      font-weight: 700;
+      padding: 14px 16px;
+      font-weight: 800;
       font-size: 0.95rem;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(18, 20, 28, 0.8);
+      background: rgba(16, 18, 26, 0.95);
       backdrop-filter: blur(8px);
       position: sticky;
       top: 0;
@@ -128,53 +138,56 @@
     }
 
     .template-card {
-      padding: 14px;
-      margin: 12px 14px;
+      padding: 12px 14px;
+      margin: 10px 12px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .template-card:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     }
 
     .template-card.active {
       border-color: var(--accent);
-      background: linear-gradient(145deg, rgba(99, 102, 241, 0.12), rgba(24, 27, 38, 0.9));
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+      background: linear-gradient(145deg, rgba(99, 102, 241, 0.16), rgba(22, 24, 36, 0.95));
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
     }
 
     .template-tag {
       font-size: 0.7rem;
       color: #818cf8;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .template-title {
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
     }
 
     .template-desc {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
-    /* Center Stage / Preview Canvas */
+    /* Center Stage / Viewport */
     .stage-container {
       display: flex;
       flex-direction: column;
-      background: radial-gradient(circle at center, #151824 0%, #08090d 100%);
+      background: radial-gradient(circle at center, #131622 0%, #06070a 100%);
       position: relative;
       overflow: hidden;
     }
@@ -184,14 +197,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 16px;
       position: relative;
     }
 
     .canvas-wrapper {
       position: relative;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
-      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
       overflow: hidden;
       background: #000;
       display: flex;
@@ -206,32 +219,61 @@
       height: 100%;
     }
 
-    /* Aspect Ratio classes */
     .aspect-9-16 {
-      width: 337px;
-      height: 600px;
+      width: 320px;
+      height: 568px;
     }
 
     .aspect-16-9 {
-      width: 720px;
-      height: 405px;
+      width: 680px;
+      height: 382px;
     }
 
     .aspect-1-1 {
-      width: 480px;
-      height: 480px;
+      width: 440px;
+      height: 440px;
     }
 
-    /* Bottom Control Bar / Timeline */
+    /* Scene Indicator Pills */
+    .scene-tracker {
+      position: absolute;
+      top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(10, 11, 16, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 4px 12px;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .scene-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      transition: all 0.2s;
+    }
+
+    .scene-pill.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Timeline & Controls Bar */
     .timeline-bar {
-      height: 90px;
+      height: 94px;
       background: var(--bg-panel);
       border-top: 1px solid var(--border);
-      padding: 12px 24px;
+      padding: 10px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      z-index: 20;
+      z-index: 30;
     }
 
     .timeline-scrubber {
@@ -245,7 +287,7 @@
       flex: 1;
       -webkit-appearance: none;
       height: 6px;
-      background: #262b3d;
+      background: #232738;
       border-radius: 6px;
       outline: none;
       cursor: pointer;
@@ -253,20 +295,21 @@
 
     .time-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--accent-secondary);
       cursor: pointer;
-      box-shadow: 0 0 10px var(--accent-glow);
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
     }
 
     .time-display {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
       color: var(--text-muted);
-      min-width: 90px;
+      min-width: 95px;
       text-align: center;
+      font-weight: 700;
     }
 
     .controls-row {
@@ -278,28 +321,29 @@
     .playback-buttons {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .btn {
       background: var(--bg-card);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 8px;
       font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 600;
+      font-size: 0.84rem;
+      font-weight: 700;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .btn:hover {
-      background: #242938;
-      border-color: #3b4259;
+      background: #202436;
+      border-color: #383e58;
     }
 
     .btn-primary {
@@ -310,7 +354,7 @@
 
     .btn-primary:hover {
       background: #4f46e5;
-      box-shadow: 0 0 15px var(--accent-glow);
+      box-shadow: 0 0 16px var(--accent-glow);
     }
 
     .btn-success {
@@ -321,26 +365,37 @@
 
     .btn-success:hover {
       background: #047857;
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.45);
     }
 
-    .btn-icon {
-      padding: 8px 12px;
+    .btn-audio {
+      background: rgba(236, 72, 153, 0.15);
+      border-color: rgba(236, 72, 153, 0.35);
+      color: #f472b6;
     }
 
-    /* Right Panel: Inspector & Customization */
+    .btn-audio.active {
+      background: #ec4899;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+    }
+
+    /* Right Form & Inspector */
     .form-group {
-      padding: 12px 16px;
+      padding: 10px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     label {
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 700;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     input[type="text"], textarea, select {
@@ -361,7 +416,7 @@
 
     .color-picker-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
     }
 
@@ -369,8 +424,8 @@
       -webkit-appearance: none;
       border: 1px solid var(--border);
       border-radius: 8px;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       cursor: pointer;
       background: transparent;
     }
@@ -384,23 +439,24 @@
       border-radius: 6px;
     }
 
-    /* Render Toast / Overlay */
+    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 110px;
       left: 50%;
       transform: translateX(-50%);
-      background: #1e1b4b;
+      background: #18192e;
       border: 1px solid #4338ca;
-      color: #c7d2fe;
+      color: #e0e7ff;
       padding: 12px 24px;
       border-radius: 12px;
       font-size: 0.9rem;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
       z-index: 100;
       display: none;
       animation: fadeIn 0.3s ease;
+      text-align: center;
     }
 
     @keyframes fadeIn {
@@ -408,6 +464,7 @@
       to { opacity: 1; transform: translate(-50%, 0); }
     }
 
+    /* Responsive Mobile Styles */
     @media (max-width: 900px) {
       body {
         overflow-y: auto;
@@ -416,8 +473,8 @@
       header {
         flex-direction: column;
         height: auto;
-        gap: 12px;
-        padding: 12px 16px;
+        gap: 10px;
+        padding: 10px 14px;
       }
       .header-actions {
         width: 100%;
@@ -431,32 +488,36 @@
       }
       .stage-container {
         order: 1;
-        padding-bottom: 12px;
+        padding-bottom: 10px;
       }
       .viewport {
-        padding: 12px;
+        padding: 10px;
       }
       .aspect-9-16 {
-        width: min(85vw, 320px);
-        height: min(calc(85vw * 16 / 9), 560px);
+        width: min(88vw, 320px);
+        height: min(calc(88vw * 16 / 9), 568px);
       }
       .aspect-16-9 {
-        width: 90vw;
-        height: calc(90vw * 9 / 16);
+        width: 92vw;
+        height: calc(92vw * 9 / 16);
       }
       .aspect-1-1 {
-        width: 85vw;
-        height: 85vw;
+        width: 88vw;
+        height: 88vw;
       }
       .panel {
         order: 2;
-        max-height: 400px;
+        max-height: 380px;
       }
       .panel-right {
         order: 3;
         border-right: none;
         border-top: 1px solid var(--border);
         max-height: none;
+      }
+      .scene-tracker {
+        position: static;
+        margin: 6px auto;
       }
     }
   </style>
@@ -469,20 +530,24 @@
       <div class="brand-logo">⚡</div>
       <div>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span class="brand-title">AI Motion Studio</span>
-          <span class="badge">v1.0 Pro</span>
+          <span class="brand-title">AI Motion Studio Pro</span>
+          <span class="badge badge-pro">v2.0 Reelzatk Edition</span>
         </div>
-        <span style="font-size: 0.75rem; color: var(--text-muted);">نظام صناعة الموشن جرافيك والفيديوهات البرمجية للذكاء الاصطناعي</span>
+        <span style="font-size: 0.74rem; color: var(--text-muted);">محرك إنتاج الريلز وفيديوهات السوشيال الذكية والموشن جرافيك</span>
       </div>
     </div>
     <div class="header-actions">
       <select id="aspectRatioSelect" onchange="changeAspectRatio(this.value)">
-        <option value="9-16" selected>📱 تيك توك و ريلز (9:16)</option>
-        <option value="16-9">💻 فيديو يوتيوب وعرض (16:9)</option>
+        <option value="9-16" selected>📱 تيك توك وريلز (9:16)</option>
+        <option value="16-9">💻 فيديو يوتيوب (16:9)</option>
         <option value="1-1">⏹️ بوست مربع (1:1)</option>
       </select>
+      <button class="btn btn-audio" id="sfxToggleBtn" onclick="toggleSFX()">
+        <span id="sfxIcon">🔊</span>
+        <span id="sfxText">المؤثرات الصوتية: مفعّلة</span>
+      </button>
       <button class="btn btn-success" id="exportBtn" onclick="exportVideo()">
-        <span>🎥 تصدير الفيديو (MP4/WebM)</span>
+        <span>🎥 تصدير الفيديو (60 FPS + صوت)</span>
       </button>
     </div>
   </header>
@@ -490,46 +555,60 @@
   <!-- Workspace -->
   <div class="workspace">
 
-    <!-- Left: Templates List -->
+    <!-- Left: Templates Selection -->
     <div class="panel">
       <div class="panel-header">
-        <span>قوالب الموشن الذكية</span>
-        <span class="badge" id="templateCount">5 قوالب</span>
+        <span>قوالب ريلزاتك والموشن</span>
+        <span class="badge" id="templateCount">6 قوالب احترافية</span>
       </div>
 
-      <div class="template-card active" onclick="selectTemplate('reels-karaoke')">
-        <div class="template-tag">🔥 Viral Reels Pro</div>
-        <div class="template-title">ريلز بكلمات كاراوكي وإيموجي متفاعلة</div>
-        <div class="template-desc">إضاءة الكلمة النشطة كلمة بكلمة (Karaoke Pop) مع موجات صوتية وإيموجي وشارات هوك جذابة.</div>
+      <div class="template-card active" onclick="selectTemplate('reels-faceless')">
+        <div class="template-tag">⭐ الأقوى انتشاراً (Reelzatk Style)</div>
+        <div class="template-title">«من فكرة لريل» (Storytelling 3-Scenes)</div>
+        <div class="template-desc">هوك صادم ➔ كلمات كاراوكي نيون مقفزة ➔ دعوة للتفاعل (CTA) مع مؤثرات صوتية تلقائية.</div>
       </div>
 
-      <div class="template-card" onclick="selectTemplate('kinetic')">
-        <div class="template-tag">Kinetic Typography</div>
-        <div class="template-title">نصوص تفاعلية سريعة (Viral Shorts)</div>
-        <div class="template-desc">انتقالات سريعة كلمة بكلمة مع ألوان نيون وخلفية ديناميكية مناسبة لريلز وإنستغرام.</div>
+      <div class="template-card" onclick="selectTemplate('reels-product')">
+        <div class="template-tag">🛍️ منتجلي (E-Commerce Showcase)</div>
+        <div class="template-title">عرض المنتجات ثلاثي الأبعاد</div>
+        <div class="template-desc">بطاقة زجاجية فاخرة عائمة للمنتج، شارات الخصم، مميزات تظهر بالتتابع وزر شراء متفاعل.</div>
       </div>
 
-      <div class="template-card" onclick="selectTemplate('product')">
-        <div class="template-tag">3D Tech Showcase</div>
-        <div class="template-title">عرض بطاقة منتج ثلاثية الأبعاد</div>
-        <div class="template-desc">تأثير زجاجي Glassmorphism مع حركة دوران ناعمة وشعارات ومميزات عائمة.</div>
+      <div class="template-card" onclick="selectTemplate('reels-wisdom')">
+        <div class="template-tag">🕌 تلاوات وأقوال وحكم هادئة</div>
+        <div class="template-title">اقتباسات وحكم بخط عربي ملكي</div>
+        <div class="template-desc">خط أميري فاخر، زوم سينمائي بطيء، خلفية ليلية متلألئة بذرات ذهبية مريحة للعين.</div>
+      </div>
+
+      <div class="template-card" onclick="selectTemplate('reels-karaoke')">
+        <div class="template-tag">🔥 Viral Karaoke Pop</div>
+        <div class="template-title">نصوص كاراوكي سريعة مع إيموجي 3D</div>
+        <div class="template-desc">إضاءة الكلمة النشطة بالنيون مع قفزات الإيموجي وموجات صوتية أسفل الشاشة.</div>
       </div>
 
       <div class="template-card" onclick="selectTemplate('stats')">
-        <div class="template-tag">Data & Growth Boom</div>
-        <div class="template-title">انفجار الأرقام والإحصائيات</div>
-        <div class="template-desc">عدّاد أرقام متصاعد مع رسم بياني متوهج وموجات احتفالية بمعدلات النمو.</div>
+        <div class="template-tag">📈 نمو وانفجار أرقام</div>
+        <div class="template-title">عدّاد الإحصائيات المتصاعد</div>
+        <div class="template-desc">انفجار مؤشرات النمو مع عداد صاعد وموجات صدمية احتفالية.</div>
       </div>
 
       <div class="template-card" onclick="selectTemplate('terminal')">
-        <div class="template-tag">Developer & AI Coding</div>
-        <div class="template-title">محرر أكواد وسطر أوامر متفاعل</div>
-        <div class="template-desc">كتابة كود حية حرفاً بحرف مع إشعارات نجاح وتأثيرات الهاكرز البرمجية.</div>
+        <div class="template-tag">💻 ذكاء اصطناعي وبرمجة</div>
+        <div class="template-title">سطر أوامر وهاكرز متفاعل</div>
+        <div class="template-desc">كتابة حية للأوامر مع مؤثرات إنجاز المهام بالذكاء الاصطناعي.</div>
       </div>
     </div>
 
-    <!-- Center: Live Stage -->
+    <!-- Center Stage -->
     <div class="stage-container">
+      <div class="scene-tracker" id="sceneTracker">
+        <span class="scene-pill active" id="pillHook">1. الهوك الجاذب (0-2s)</span>
+        <span style="color:#475569;">➔</span>
+        <span class="scene-pill" id="pillBody">2. السر والقيمة (2-5s)</span>
+        <span style="color:#475569;">➔</span>
+        <span class="scene-pill" id="pillCTA">3. التفاعل (5-7s)</span>
+      </div>
+
       <div class="viewport">
         <div class="canvas-wrapper aspect-9-16" id="canvasWrapper">
           <canvas id="motionCanvas" width="1080" height="1920"></canvas>
@@ -539,19 +618,22 @@
       <!-- Timeline Bar -->
       <div class="timeline-bar">
         <div class="timeline-scrubber">
-          <input type="range" id="timeSlider" class="time-slider" min="0" max="300" value="0" oninput="seekToFrame(this.value)">
-          <div class="time-display" id="timeDisplay">00:00 / 05:00</div>
+          <input type="range" id="timeSlider" class="time-slider" min="0" max="360" value="0" oninput="seekToFrame(this.value)">
+          <div class="time-display" id="timeDisplay">00:00 / 06:00</div>
         </div>
         <div class="controls-row">
           <div class="playback-buttons">
-            <button class="btn btn-icon" onclick="stepBack()">⏮️</button>
-            <button class="btn btn-primary btn-icon" id="playBtn" onclick="togglePlay()">▶️ تشغيل</button>
-            <button class="btn btn-icon" onclick="stepForward()">⏭️</button>
-            <button class="btn btn-icon" onclick="resetPlay()">🔄 إعادة</button>
+            <button class="btn btn-icon" onclick="resetPlay()" title="إعادة من البداية">🔄</button>
+            <button class="btn btn-icon" onclick="stepBack()" title="رجوع فريمات">⏮️</button>
+            <button class="btn btn-primary" id="playBtn" onclick="togglePlay()">▶️ تشغيل</button>
+            <button class="btn btn-icon" onclick="stepForward()" title="تقديم فريمات">⏭️</button>
           </div>
-          <div style="display:flex; align-items:center; gap:16px;">
-            <span style="font-size:0.8rem; color:var(--text-muted);">المعدل: 60 FPS</span>
-            <span class="badge" id="renderingBadge">جاهز للرندر</span>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <label for="audioFileInput" class="btn" style="cursor:pointer; margin:0;">
+              🎵 رفع صوت (MP3/WAV)
+            </label>
+            <input type="file" id="audioFileInput" accept="audio/*" style="display:none;" onchange="handleAudioUpload(event)">
+            <span class="badge" id="sfxStatusBadge">🔊 صوت سنثسيزر مدمج</span>
           </div>
         </div>
       </div>
@@ -560,69 +642,182 @@
     <!-- Right: Properties Inspector -->
     <div class="panel panel-right">
       <div class="panel-header">
-        <span>محرر الخصائص والنصوص</span>
+        <span>محرر السكربت والتخصيص</span>
         <span class="badge">Live Sync</span>
       </div>
 
       <div class="form-group">
-        <label>العنوان الرئيسي (Title)</label>
-        <input type="text" id="propTitle" value="الذكاء الاصطناعي يصنع الفيديوهات!">
+        <label>بيئة وخلفية الاستوديو (Environment)</label>
+        <select id="propEnv" onchange="applyProps()">
+          <option value="aurora" selected>🌌 أورورا نيون ليلية (Cyber Aurora)</option>
+          <option value="studio">🎙️ استوديو مظلم أنيق (Dark Studio)</option>
+          <option value="royal">👑 أسود ملكي بذرات ذهبية (Obsidian Gold)</option>
+          <option value="grid">📐 شبكة تقنية متطورة (High-Tech Grid)</option>
+        </select>
       </div>
 
       <div class="form-group">
-        <label>العنوان الفرعي أو الوصف (Subtitle)</label>
-        <input type="text" id="propSubtitle" value="برمجة موشن جرافيك فائق السرعة بالكود وAI">
+        <label>ستايل خط ولون الكاراوكي (Captions Style)</label>
+        <select id="propCaptionStyle" onchange="applyProps()">
+          <option value="neon-yellow" selected>⚡ أصفر نيون متوهج مع بادج أسود</option>
+          <option value="emerald-green">💎 أخضر زمردي فاخر</option>
+          <option value="cyber-pink">🌸 وردي كايبر ناصع</option>
+          <option value="pure-white">⚪ أبيض ناصع مع ظل سينمائي</option>
+        </select>
       </div>
 
       <div class="form-group">
-        <label>الشارة أو التصنيف (Badge Tag)</label>
-        <input type="text" id="propBadge" value="🔥 إطلاق جديد 2026">
+        <label>1. نص الهوك الصادم (Hook - 0-2s)</label>
+        <input type="text" id="propHook" value="⚠️ سر خطير في 2026!">
       </div>
 
       <div class="form-group">
-        <label>الرقم المميز / الإحصائية (للقالب الإحصائي)</label>
-        <input type="text" id="propMetric" value="+850%">
+        <label>2. الكلمات الرئيسية (Body - الكاراوكي)</label>
+        <textarea id="propTitle" rows="2">الذكاء الاصطناعي هيصنعلك كل فيديوهاتك في ثواني معدودة</textarea>
       </div>
 
       <div class="form-group">
-        <label>الألوان الرئيسية (Colors)</label>
+        <label>3. دعوة للتفاعل (CTA - آخر ثانيتين)</label>
+        <input type="text" id="propCTA" value="احفظ الفيديو وشاركنا رأيك بالتعليقات 💾">
+      </div>
+
+      <div class="form-group">
+        <label>سعر / ميزة المنتج (لقالب منتجلي)</label>
+        <input type="text" id="propPrice" value="خصم 40% لفترة محدودة ⚡">
+      </div>
+
+      <div class="form-group">
+        <label>مدة الريل (بالثواني)</label>
+        <select id="durationSelect" onchange="changeDuration(this.value)">
+          <option value="4">4 ثوانٍ (سريع وخاطف)</option>
+          <option value="6" selected>6 ثوانٍ (النموذج الذهبي للريلز)</option>
+          <option value="8">8 ثوانٍ (شامل ومفصل)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>لوحة الألوان الأساسية</label>
         <div class="color-picker-row">
           <div>
-            <label style="font-size:0.7rem; display:block;">اللون الأساسي</label>
-            <input type="color" id="propColorPrimary" value="#6366f1">
+            <label style="font-size:0.68rem;">الأساسي</label>
+            <input type="color" id="propColorPrimary" value="#6366f1" onchange="applyProps()">
           </div>
           <div>
-            <label style="font-size:0.7rem; display:block;">اللون الثانوي</label>
-            <input type="color" id="propColorSecondary" value="#ec4899">
+            <label style="font-size:0.68rem;">الثانوي</label>
+            <input type="color" id="propColorSecondary" value="#ec4899" onchange="applyProps()">
           </div>
           <div>
-            <label style="font-size:0.7rem; display:block;">لون الخلفية</label>
-            <input type="color" id="propColorBg" value="#0a0c16">
+            <label style="font-size:0.68rem;">النيون</label>
+            <input type="color" id="propColorAccent" value="#facc15" onchange="applyProps()">
           </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>مدة الفيديو (بالثواني)</label>
-        <select id="durationSelect" onchange="changeDuration(this.value)">
-          <option value="3">3 ثوانٍ (سريع جداً)</option>
-          <option value="5" selected>5 ثوانٍ (مثالي للسوشيال)</option>
-          <option value="8">8 ثوانٍ (شامل وهادئ)</option>
-        </select>
-      </div>
-
-      <div style="padding:16px; margin-top:auto;">
-        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="applyProps()">
-          تطبيق التعديلات الحالية ⚡
+      <div style="padding:14px; margin-top:auto;">
+        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:10px;" onclick="applyProps()">
+          تحديث ومعاينة الريل الآن ⚡
         </button>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast">جاري تسجيل وتصدير الفيديو... برجاء الانتظار</div>
+  <div class="toast" id="toast">جاري تحضير وتصدير الفيديو...</div>
 
   <script>
-    // --- Motion Graphics Engine State ---
+    // --- High-Performance Web Audio Synthesizer (Zero Dependencies) ---
+    class SoundSynthesizer {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+        this.dest = null; // for MediaStream recording
+        this.uploadedAudio = null;
+        this.uploadedAudioSource = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+          this.dest = this.ctx.createMediaStreamDestination();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playWhoosh() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.12);
+          osc.frequency.exponentialRampToValueAtTime(90, this.ctx.currentTime + 0.28);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.25, this.ctx.currentTime + 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.28);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+          gain.connect(this.dest);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.3);
+        } catch(e) {}
+      }
+
+      playPop() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(850, this.ctx.currentTime + 0.05);
+
+          gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          gain.connect(this.dest);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.09);
+        } catch(e) {}
+      }
+
+      playChime() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          [587.33, 880, 1174.66].forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+            gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.4);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            gain.connect(this.dest);
+            osc.start(this.ctx.currentTime + idx * 0.06);
+            osc.stop(this.ctx.currentTime + idx * 0.06 + 0.45);
+          });
+        } catch(e) {}
+      }
+    }
+
+    const soundEngine = new SoundSynthesizer();
+
+    // --- Core Canvas & Engine State ---
     const canvas = document.getElementById('motionCanvas');
     const ctx = canvas.getContext('2d');
     const timeSlider = document.getElementById('timeSlider');
@@ -631,441 +826,651 @@
     const toast = document.getElementById('toast');
 
     let fps = 60;
-    let durationSec = 5;
+    let durationSec = 6;
     let totalFrames = durationSec * fps;
     let currentFrame = 0;
     let isPlaying = true;
-    let currentTemplate = 'reels-karaoke';
+    let currentTemplate = 'reels-faceless';
     let animationId = null;
+    let lastSoundFrame = -1;
 
-    // Custom Props
+    // Configurable Props
     let props = {
-      title: "الذكاء الاصطناعي يصنع الفيديوهات!",
-      subtitle: "برمجة موشن جرافيك فائق السرعة بالكود وAI",
-      badge: "🔥 إطلاق جديد 2026",
-      metric: "+850%",
+      hook: "⚠️ سر خطير في 2026!",
+      title: "الذكاء الاصطناعي هيصنعلك كل فيديوهاتك في ثواني معدودة",
+      cta: "احفظ الفيديو وشاركنا رأيك بالتعليقات 💾",
+      price: "خصم 40% لفترة محدودة ⚡",
+      env: "aurora",
+      captionStyle: "neon-yellow",
       colorPrimary: "#6366f1",
       colorSecondary: "#ec4899",
-      colorBg: "#0a0c16"
+      colorAccent: "#facc15"
     };
 
-    // Interpolation & Spring helpers
-    function clamp(val, min, max) {
-      return Math.max(min, Math.min(max, val));
-    }
-
+    // Math & Animation Easing Helpers
+    function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
     function easeOutBack(x) {
       const c1 = 1.70158;
       const c3 = c1 + 1;
       return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
     }
-
-    function easeOutCubic(x) {
-      return 1 - Math.pow(1 - x, 3);
-    }
-
-    function easeInOutQuad(x) {
-      return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
-    }
-
+    function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
+    function easeInOutQuad(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
     function progress(start, end, f = currentFrame) {
       if (f < start) return 0;
       if (f > end) return 1;
       return (f - start) / (end - start);
     }
 
-    // --- Render Loops per Template ---
+    // --- Environment Background Renderers ---
+    function renderEnvironment(w, h) {
+      if (props.env === 'aurora') {
+        ctx.fillStyle = "#06070d";
+        ctx.fillRect(0, 0, w, h);
 
-    function renderReelsKaraoke() {
+        const t = currentFrame * 0.015;
+        const x1 = w * 0.5 + Math.sin(t) * 160;
+        const y1 = h * 0.35 + Math.cos(t * 0.8) * 120;
+        const g1 = ctx.createRadialGradient(x1, y1, 40, x1, y1, w * 0.7);
+        g1.addColorStop(0, "rgba(99, 102, 241, 0.32)");
+        g1.addColorStop(0.6, "rgba(236, 72, 153, 0.12)");
+        g1.addColorStop(1, "transparent");
+        ctx.fillStyle = g1;
+        ctx.fillRect(0, 0, w, h);
+
+        // Ambient particles
+        for (let i = 0; i < 18; i++) {
+          const px = ((i * 187 + currentFrame * 0.6) % w);
+          const py = ((i * 241 - currentFrame * 1.2) % h + h) % h;
+          ctx.fillStyle = i % 2 === 0 ? "rgba(99, 102, 241, 0.35)" : "rgba(236, 72, 153, 0.35)";
+          ctx.beginPath();
+          ctx.arc(px, py, (i % 3) + 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (props.env === 'royal') {
+        ctx.fillStyle = "#07080a";
+        ctx.fillRect(0, 0, w, h);
+
+        const g = ctx.createRadialGradient(w / 2, h * 0.45, 50, w / 2, h * 0.45, w * 0.7);
+        g.addColorStop(0, "rgba(234, 179, 8, 0.18)");
+        g.addColorStop(1, "transparent");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, w, h);
+
+        // Gold shimmer particles
+        for (let i = 0; i < 24; i++) {
+          const px = (Math.sin(i * 99 + currentFrame * 0.02) * 0.5 + 0.5) * w;
+          const py = ((i * 123 - currentFrame * 0.8) % h + h) % h;
+          const shimmer = Math.sin(currentFrame * 0.1 + i) * 0.4 + 0.6;
+          ctx.fillStyle = `rgba(250, 204, 21, ${0.4 * shimmer})`;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (props.env === 'studio') {
+        ctx.fillStyle = "#0c0e14";
+        ctx.fillRect(0, 0, w, h);
+        const g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, "#161924");
+        g.addColorStop(1, "#08090d");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, w, h);
+      } else if (props.env === 'grid') {
+        ctx.fillStyle = "#07090e";
+        ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = "rgba(99, 102, 241, 0.06)";
+        ctx.lineWidth = 1.5;
+        const offset = (currentFrame * 0.5) % 60;
+        for (let x = 0; x < w; x += 60) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = offset; y < h; y += 60) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+      }
+    }
+
+    // --- Caption Style Color Configurator ---
+    function getCaptionColors() {
+      if (props.captionStyle === 'emerald-green') {
+        return { activeText: '#10b981', badgeBg: 'rgba(6, 78, 59, 0.8)', border: '#34d399', glow: '#10b981' };
+      } else if (props.captionStyle === 'cyber-pink') {
+        return { activeText: '#f472b6', badgeBg: 'rgba(131, 24, 67, 0.8)', border: '#f472b6', glow: '#ec4899' };
+      } else if (props.captionStyle === 'pure-white') {
+        return { activeText: '#ffffff', badgeBg: 'rgba(0, 0, 0, 0.8)', border: '#ffffff', glow: '#ffffff' };
+      }
+      // Default: neon-yellow
+      return { activeText: '#facc15', badgeBg: 'rgba(0, 0, 0, 0.85)', border: '#facc15', glow: '#facc15' };
+    }
+
+    // --- TEMPLATE 1: «من فكرة لريل» (Storytelling 3-Scenes: Hook -> Body -> CTA) ---
+    function renderFacelessReel() {
       const w = canvas.width;
       const h = canvas.height;
+      renderEnvironment(w, h);
 
-      // 1. Deep Dark Vignette Background
-      ctx.fillStyle = "#05060a";
-      ctx.fillRect(0, 0, w, h);
+      const fHookEnd = totalFrames * 0.28;
+      const fBodyEnd = totalFrames * 0.74;
 
-      // Ambient dynamic glowing aura
-      const pulse = Math.sin((currentFrame / 30) * Math.PI) * 0.15 + 0.85;
-      const grad = ctx.createRadialGradient(w / 2, h * 0.45, 50, w / 2, h * 0.45, w * 0.65);
-      grad.addColorStop(0, "rgba(99, 102, 241, 0.28)");
-      grad.addColorStop(0.5, "rgba(236, 72, 153, 0.15)");
-      grad.addColorStop(1, "transparent");
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, w, h);
-
-      // Ambient floating neon particles
-      for (let i = 0; i < 15; i++) {
-        const px = (Math.sin(i * 123 + currentFrame * 0.02) * 0.5 + 0.5) * w;
-        const py = ((i * 157 - currentFrame * 1.5) % h + h) % h;
-        const pSize = (i % 3) + 2;
-        ctx.fillStyle = i % 2 === 0 ? "rgba(99, 102, 241, 0.4)" : "rgba(236, 72, 153, 0.4)";
-        ctx.beginPath();
-        ctx.arc(px, py, pSize, 0, Math.PI * 2);
-        ctx.fill();
+      // Update Top Scene Tracker UI
+      const pillHook = document.getElementById('pillHook');
+      const pillBody = document.getElementById('pillBody');
+      const pillCTA = document.getElementById('pillCTA');
+      if (currentFrame < fHookEnd) {
+        pillHook.className = "scene-pill active";
+        pillBody.className = "scene-pill";
+        pillCTA.className = "scene-pill";
+      } else if (currentFrame < fBodyEnd) {
+        pillHook.className = "scene-pill";
+        pillBody.className = "scene-pill active";
+        pillCTA.className = "scene-pill";
+      } else {
+        pillHook.className = "scene-pill";
+        pillBody.className = "scene-pill";
+        pillCTA.className = "scene-pill active";
       }
 
-      // 2. Top Viral Hook Badge
-      const hookP = easeOutBack(clamp(progress(0, 25), 0, 1));
-      if (hookP > 0) {
-        ctx.save();
-        ctx.translate(w / 2, h * 0.18);
-        ctx.scale(hookP, hookP);
+      // SCENE 1: THE VIRAL HOOK (0 - 28%)
+      if (currentFrame <= fHookEnd + 15) {
+        const enterP = easeOutBack(clamp(progress(0, 25), 0, 1));
+        const exitP = currentFrame > fHookEnd ? 1 - progress(fHookEnd, fHookEnd + 15) : 1;
+        const p = enterP * exitP;
 
-        const bw = Math.min(w * 0.88, 480);
-        const bh = 60;
-        
-        ctx.shadowColor = props.colorSecondary;
-        ctx.shadowBlur = 20 * pulse;
-        ctx.fillStyle = "rgba(18, 20, 32, 0.9)";
-        ctx.strokeStyle = props.colorSecondary;
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 30);
-        ctx.fill();
-        ctx.stroke();
+        if (p > 0) {
+          ctx.save();
+          ctx.translate(w / 2, h * 0.45);
+          ctx.scale(p, p);
 
-        ctx.shadowBlur = 0;
-        ctx.font = "bold 26px 'Cairo'";
-        ctx.fillStyle = "#ffffff";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(props.badge || "⚠️ نصيحة سرية للمحتوى 2026", 0, 0);
-        ctx.restore();
+          // Glowing Alert Badge
+          ctx.shadowColor = props.colorSecondary;
+          ctx.shadowBlur = 30;
+          ctx.fillStyle = "rgba(22, 24, 38, 0.95)";
+          ctx.strokeStyle = props.colorSecondary;
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.roundRect(-220, -180, 440, 68, 34);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.shadowBlur = 0;
+          ctx.font = "bold 30px 'Cairo'";
+          ctx.fillStyle = "#ffffff";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("⚠️ انتبه لهذا السر!", 0, -146);
+
+          // Big Hook Question / Statement
+          ctx.font = "900 68px 'Cairo'";
+          ctx.fillStyle = "#ffffff";
+          ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+          ctx.shadowBlur = 20;
+
+          const hookWords = props.hook.split(" ");
+          const mid = Math.ceil(hookWords.length / 2);
+          const line1 = hookWords.slice(0, mid).join(" ");
+          const line2 = hookWords.slice(mid).join(" ");
+
+          ctx.fillText(line1, 0, -15);
+          if (line2) {
+            const grad = ctx.createLinearGradient(-150, 0, 150, 0);
+            grad.addColorStop(0, props.colorAccent);
+            grad.addColorStop(1, props.colorSecondary);
+            ctx.fillStyle = grad;
+            ctx.fillText(line2, 0, 75);
+          }
+
+          // Shaking sound wave emoji
+          ctx.font = "80px sans-serif";
+          ctx.fillText("🔥", 0, 185);
+
+          ctx.restore();
+        }
+
+        // Trigger sound effect on hook entrance
+        if (currentFrame === 5 && currentFrame !== lastSoundFrame) {
+          soundEngine.playWhoosh();
+          lastSoundFrame = currentFrame;
+        }
       }
 
-      // 3. Center Floating Animated 3D Emoji Pop
-      let activeEmoji = "🚀";
-      if (currentFrame > totalFrames * 0.65) activeEmoji = "💰";
-      else if (currentFrame > totalFrames * 0.35) activeEmoji = "🔥";
+      // SCENE 2: KARAOKE WORD-BY-WORD BODY (28% - 74%)
+      if (currentFrame > fHookEnd - 5 && currentFrame <= fBodyEnd + 15) {
+        const bodyEnter = easeOutCubic(clamp(progress(fHookEnd - 5, fHookEnd + 15), 0, 1));
+        const bodyExit = currentFrame > fBodyEnd ? 1 - progress(fBodyEnd, fBodyEnd + 15) : 1;
+        const bp = bodyEnter * bodyExit;
 
-      const emojiPhase = (currentFrame % 45) / 45;
-      const emojiBounce = Math.sin(emojiPhase * Math.PI) * 12;
-      const emojiScale = 1 + Math.sin(currentFrame * 0.1) * 0.08;
+        if (bp > 0) {
+          ctx.save();
+          ctx.translate(w / 2, h * 0.46);
+          ctx.scale(bp, bp);
+
+          // Top Floating Emoji
+          const emojiPhase = Math.sin(currentFrame * 0.15) * 12;
+          ctx.font = "85px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.shadowColor = props.colorPrimary;
+          ctx.shadowBlur = 25;
+          ctx.fillText("🚀", 0, -180 + emojiPhase);
+
+          // Karaoke Words
+          const words = props.title.trim().split(/\s+/);
+          const frameInBody = currentFrame - fHookEnd;
+          const bodyDurationFrames = fBodyEnd - fHookEnd;
+          const activeWordIdx = Math.min(words.length - 1, Math.max(0, Math.floor((frameInBody / bodyDurationFrames) * words.length)));
+
+          // Play pop sound when active word changes
+          if (currentFrame % 22 === 0 && currentFrame !== lastSoundFrame && isPlaying) {
+            soundEngine.playPop();
+            lastSoundFrame = currentFrame;
+          }
+
+          const styleColors = getCaptionColors();
+          const wordsPerLine = 3;
+          const lines = [];
+          for (let i = 0; i < words.length; i += wordsPerLine) {
+            lines.push(words.slice(i, i + wordsPerLine));
+          }
+
+          const startY = -40;
+          const lineSpacing = 110;
+          let wordCounter = 0;
+
+          lines.forEach((lineWords, lineIdx) => {
+            const lineY = startY + lineIdx * lineSpacing;
+            const wordGap = w * 0.28;
+            const startX = -((lineWords.length - 1) * wordGap) / 2;
+
+            lineWords.forEach((word, wIdx) => {
+              const isCurrent = wordCounter === activeWordIdx;
+              const isPast = wordCounter < activeWordIdx;
+              const wx = startX + wIdx * wordGap;
+
+              ctx.save();
+              ctx.translate(wx, lineY);
+
+              if (isCurrent) {
+                ctx.scale(1.24, 1.24);
+
+                // Dark Rounded Badge Behind Active Word
+                const metrics = ctx.measureText(word);
+                const bw = metrics.width + 36;
+                const bh = 64;
+                ctx.fillStyle = styleColors.badgeBg;
+                ctx.strokeStyle = styleColors.border;
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 18);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.shadowColor = styleColors.glow;
+                ctx.shadowBlur = 30;
+                ctx.font = "900 54px 'Cairo'";
+                ctx.fillStyle = styleColors.activeText;
+              } else if (isPast) {
+                ctx.font = "800 46px 'Cairo'";
+                ctx.fillStyle = "#ffffff";
+                ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+                ctx.shadowBlur = 12;
+              } else {
+                ctx.font = "700 44px 'Cairo'";
+                ctx.fillStyle = "rgba(255, 255, 255, 0.32)";
+              }
+
+              ctx.fillText(word, 0, 0);
+              ctx.restore();
+              wordCounter++;
+            });
+          });
+
+          ctx.restore();
+        }
+      }
+
+      // SCENE 3: CALL TO ACTION (CTA - 74% - 100%)
+      if (currentFrame > fBodyEnd - 5) {
+        const ctaP = easeOutBack(clamp(progress(fBodyEnd, fBodyEnd + 25), 0, 1));
+        if (ctaP > 0) {
+          ctx.save();
+          ctx.translate(w / 2, h * 0.5);
+          ctx.scale(ctaP, ctaP);
+
+          // Play chime sound once on CTA entrance
+          if (currentFrame === Math.floor(fBodyEnd + 5) && currentFrame !== lastSoundFrame) {
+            soundEngine.playChime();
+            lastSoundFrame = currentFrame;
+          }
+
+          // Pulsing Trophy / Star Emoji
+          const starScale = 1 + Math.sin(currentFrame * 0.2) * 0.12;
+          ctx.font = "95px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("⭐", 0, -140);
+
+          // CTA Card Container
+          const cw = 440;
+          const ch = 190;
+          ctx.fillStyle = "rgba(22, 25, 40, 0.95)";
+          ctx.strokeStyle = props.colorPrimary;
+          ctx.lineWidth = 3;
+          ctx.shadowColor = props.colorPrimary;
+          ctx.shadowBlur = 35;
+          ctx.beginPath();
+          ctx.roundRect(-cw / 2, -ch / 2 + 50, cw, ch, 24);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.shadowBlur = 0;
+          ctx.font = "800 34px 'Cairo'";
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText("جاهز لتنفيذ فكرتك؟", 0, -10 + 50);
+
+          // Pulsing Glow Button
+          const btnPulse = Math.sin(currentFrame * 0.18) * 0.05 + 1;
+          ctx.save();
+          ctx.translate(0, 75 + 50);
+          ctx.scale(btnPulse, btnPulse);
+
+          const grad = ctx.createLinearGradient(-160, 0, 160, 0);
+          grad.addColorStop(0, props.colorPrimary);
+          grad.addColorStop(1, props.colorSecondary);
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(-170, -28, 340, 56, 28);
+          ctx.fill();
+
+          ctx.font = "bold 24px 'Cairo'";
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(props.cta.substring(0, 26), 0, 0);
+          ctx.restore();
+
+          ctx.restore();
+        }
+      }
+
+      // Audio Equalizer at Bottom
+      renderAudioBars(w, h);
+      renderProgressBar(w, h);
+    }
+
+    // --- TEMPLATE 2: «منتجلي» (3D Product Showcase Reel) ---
+    function renderProductReel() {
+      const w = canvas.width;
+      const h = canvas.height;
+      renderEnvironment(w, h);
+
+      const p = easeOutBack(clamp(progress(5, 35), 0, 1));
+      const floatY = Math.sin((currentFrame / 40) * Math.PI) * 14;
 
       ctx.save();
-      ctx.translate(w / 2, h * 0.34 - emojiBounce);
-      ctx.scale(emojiScale, emojiScale);
-      ctx.font = "80px sans-serif";
+      ctx.translate(w / 2, h * 0.46 + floatY);
+      ctx.scale(p, p);
+
+      const cw = 420;
+      const ch = 640;
+
+      // 3D Glassmorphic Card
+      ctx.shadowColor = props.colorPrimary;
+      ctx.shadowBlur = 45;
+      ctx.fillStyle = "rgba(18, 21, 34, 0.92)";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(-cw / 2, -ch / 2, cw, ch, 28);
+      ctx.fill();
+      ctx.stroke();
+
+      // Top Discount / Tag Badge
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = props.colorSecondary;
+      ctx.beginPath();
+      ctx.roundRect(-140, -ch / 2 + 30, 280, 46, 23);
+      ctx.fill();
+
+      ctx.font = "bold 20px 'Cairo'";
+      ctx.fillStyle = "#ffffff";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+      ctx.fillText(props.price, 0, -ch / 2 + 53);
+
+      // Product Visual / Icon Box
+      ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.beginPath();
+      ctx.roundRect(-100, -ch / 2 + 105, 200, 180, 20);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = "90px sans-serif";
+      ctx.fillText("📦", 0, -ch / 2 + 195);
+
+      // Product Title
+      ctx.font = "900 40px 'Cairo'";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(props.hook || "المنتج الأفضل لعام 2026", 0, -ch / 2 + 330);
+
+      // Features list with checkmarks (staggered in)
+      const features = [
+        "✔ جودة أصلية ومضمونة 100%",
+        "✔ شحن سريع لجميع المحافظات",
+        "✔ دعم فني وضمان استبدال"
+      ];
+
+      features.forEach((feat, idx) => {
+        const featP = easeOutCubic(clamp(progress(35 + idx * 15, 60 + idx * 15), 0, 1));
+        if (featP > 0) {
+          ctx.save();
+          ctx.globalAlpha = featP;
+          ctx.font = "600 24px 'Cairo'";
+          ctx.fillStyle = "#cbd5e1";
+          ctx.fillText(feat, 0, -ch / 2 + 395 + idx * 46);
+          ctx.restore();
+        }
+      });
+
+      // Buy Now Button
+      const btnPulse = Math.sin(currentFrame * 0.15) * 0.04 + 1;
+      ctx.save();
+      ctx.translate(0, ch / 2 - 60);
+      ctx.scale(btnPulse, btnPulse);
+      ctx.fillStyle = props.colorPrimary;
       ctx.shadowColor = props.colorPrimary;
-      ctx.shadowBlur = 25;
-      ctx.fillText(activeEmoji, 0, 0);
+      ctx.shadowBlur = 20;
+      ctx.beginPath();
+      ctx.roundRect(-150, -28, 300, 56, 28);
+      ctx.fill();
+
+      ctx.font = "bold 24px 'Cairo'";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("اطلب الآن بخصم حصري 🛍️", 0, 0);
       ctx.restore();
 
-      // 4. Karaoke Dynamic Word Highlighting
-      const words = (props.title + " " + props.subtitle).trim().split(/\s+/);
-      const activeWordIdx = Math.min(words.length - 1, Math.floor((currentFrame / (totalFrames * 0.85)) * words.length));
+      ctx.restore();
+
+      renderAudioBars(w, h);
+      renderProgressBar(w, h);
+    }
+
+    // --- TEMPLATE 3: «اقتباسات وحكم وتلاوات هادئة» (Amiri Typography) ---
+    function renderWisdomReel() {
+      const w = canvas.width;
+      const h = canvas.height;
+      props.env = "royal"; // auto-royal background
+      renderEnvironment(w, h);
+
+      // Slow cinematic camera push-in
+      const zoom = 1 + (currentFrame / totalFrames) * 0.08;
 
       ctx.save();
+      ctx.translate(w / 2, h * 0.48);
+      ctx.scale(zoom, zoom);
+
+      // Ornamental Header Symbol
+      ctx.font = "bold 44px 'Amiri', serif";
+      ctx.fillStyle = "rgba(250, 204, 21, 0.85)";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      
-      const wordsPerLine = 3;
+      ctx.fillText("﷽", 0, -220);
+
+      // Top Quote Tag
+      ctx.font = "bold 22px 'Cairo'";
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillText(props.hook || "من جوامع الكلم والحكم", 0, -150);
+
+      // Decorative divider
+      const lineW = 180;
+      ctx.strokeStyle = "rgba(250, 204, 21, 0.4)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-lineW / 2, -120);
+      ctx.lineTo(lineW / 2, -120);
+      ctx.stroke();
+
+      // Main Text in Amiri Font (Word-by-word progressive reveal)
+      const words = props.title.split(" ");
+      const revealedCount = Math.floor(clamp(progress(15, totalFrames * 0.75), 0, 1) * words.length);
+
+      ctx.font = "bold 46px 'Amiri', serif";
+      ctx.fillStyle = "#ffffff";
+
+      // Render lines nicely
+      const wordsPerLine = 4;
       const lines = [];
       for (let i = 0; i < words.length; i += wordsPerLine) {
         lines.push(words.slice(i, i + wordsPerLine));
       }
 
-      const startY = h * 0.48;
-      const lineSpacing = 100;
+      let count = 0;
+      lines.forEach((lWords, lIdx) => {
+        const ly = -40 + lIdx * 80;
+        const lineText = lWords.map(w => {
+          count++;
+          return count <= revealedCount ? w : "";
+        }).join(" ");
 
-      let globalWordCounter = 0;
-
-      lines.forEach((lineWords, lineIdx) => {
-        const lineY = startY + lineIdx * lineSpacing;
-        const totalLineWords = lineWords.length;
-        const wordGap = w * 0.28;
-        const lineStartX = (w / 2) - ((totalLineWords - 1) * wordGap) / 2;
-
-        lineWords.forEach((word, wordInLineIdx) => {
-          const isCurrent = globalWordCounter === activeWordIdx;
-          const isPast = globalWordCounter < activeWordIdx;
-          const wordX = lineStartX + wordInLineIdx * wordGap;
-
-          ctx.save();
-          ctx.translate(wordX, lineY);
-
-          if (isCurrent) {
-            ctx.scale(1.22, 1.22);
-            ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
-            ctx.strokeStyle = "#facc15";
-            ctx.lineWidth = 2.5;
-            const textMetrics = ctx.measureText(word);
-            const padX = 22;
-            const rw = textMetrics.width + padX * 2 + 10;
-            const rh = 64;
-            ctx.beginPath();
-            ctx.roundRect(-rw / 2, -rh / 2, rw, rh, 16);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.shadowColor = "#facc15";
-            ctx.shadowBlur = 30;
-            ctx.font = "900 52px 'Cairo'";
-            ctx.fillStyle = "#facc15";
-          } else if (isPast) {
-            ctx.font = "800 46px 'Cairo'";
-            ctx.fillStyle = "#ffffff";
-            ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
-            ctx.shadowBlur = 10;
-          } else {
-            ctx.font = "700 44px 'Cairo'";
-            ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
-          }
-
-          ctx.fillText(word, 0, 0);
-          ctx.restore();
-
-          globalWordCounter++;
-        });
+        ctx.shadowColor = "rgba(250, 204, 21, 0.4)";
+        ctx.shadowBlur = 15;
+        ctx.fillText(lineText, 0, ly);
       });
-      ctx.restore();
 
-      // 5. Bottom Audio Waveform Visualizer
-      ctx.save();
-      const numBars = 32;
-      const barWidth = 6;
-      const barGap = 6;
-      const totalWaveWidth = numBars * (barWidth + barGap);
-      const waveStartX = (w - totalWaveWidth) / 2;
-      const waveBaseY = h * 0.88;
-
-      for (let i = 0; i < numBars; i++) {
-        const barHeight = Math.abs(Math.sin(currentFrame * 0.25 + i * 0.45)) * 55 + 8;
-        const x = waveStartX + i * (barWidth + barGap);
-
-        const barGrad = ctx.createLinearGradient(0, waveBaseY - barHeight, 0, waveBaseY);
-        barGrad.addColorStop(0, props.colorSecondary);
-        barGrad.addColorStop(1, props.colorPrimary);
-
-        ctx.fillStyle = barGrad;
-        ctx.beginPath();
-        ctx.roundRect(x, waveBaseY - barHeight, barWidth, barHeight, 3);
-        ctx.fill();
+      // Bottom Source / Wisdom Tag
+      const botP = easeOutCubic(clamp(progress(totalFrames * 0.65, totalFrames * 0.9), 0, 1));
+      if (botP > 0) {
+        ctx.save();
+        ctx.globalAlpha = botP;
+        ctx.font = "24px 'Cairo'";
+        ctx.fillStyle = "rgba(250, 204, 21, 0.9)";
+        ctx.fillText("✨ تدبر وشارك تؤجر", 0, 220);
+        ctx.restore();
       }
+
       ctx.restore();
-
-      // 6. Bottom Video Progress Bar (Reels Watch-Time Indicator)
-      const completionP = currentFrame / totalFrames;
-      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
-      ctx.fillRect(0, h - 8, w, 8);
-
-      const progGrad = ctx.createLinearGradient(0, 0, w, 0);
-      progGrad.addColorStop(0, props.colorPrimary);
-      progGrad.addColorStop(1, props.colorSecondary);
-      ctx.fillStyle = progGrad;
-      ctx.fillRect(0, h - 8, w * completionP, 8);
+      renderProgressBar(w, h);
     }
 
-    function renderKineticTypography() {
+    // --- TEMPLATE 4: Fast Viral Karaoke Pop ---
+    function renderReelsKaraoke() {
       const w = canvas.width;
       const h = canvas.height;
+      renderEnvironment(w, h);
 
-      // 1. Dynamic Mesh Gradient Background
-      ctx.fillStyle = props.colorBg;
-      ctx.fillRect(0, 0, w, h);
-
-      // Ambient Glowing orbs
-      const glowProgress = currentFrame / totalFrames;
-      const orbX1 = w * 0.3 + Math.sin(glowProgress * Math.PI * 2) * 150;
-      const orbY1 = h * 0.4 + Math.cos(glowProgress * Math.PI * 2) * 100;
-      const grad1 = ctx.createRadialGradient(orbX1, orbY1, 50, orbX1, orbY1, 600);
-      grad1.addColorStop(0, props.colorPrimary + "55");
-      grad1.addColorStop(1, "transparent");
-      ctx.fillStyle = grad1;
-      ctx.fillRect(0, 0, w, h);
-
-      const orbX2 = w * 0.7 - Math.sin(glowProgress * Math.PI * 2) * 120;
-      const orbY2 = h * 0.6 - Math.cos(glowProgress * Math.PI * 2) * 80;
-      const grad2 = ctx.createRadialGradient(orbX2, orbY2, 50, orbX2, orbY2, 550);
-      grad2.addColorStop(0, props.colorSecondary + "44");
-      grad2.addColorStop(1, "transparent");
-      ctx.fillStyle = grad2;
-      ctx.fillRect(0, 0, w, h);
-
-      // 2. Badge Animation (0 to 30 frames)
-      const badgeP = easeOutBack(clamp(progress(0, 25), 0, 1));
-      if (badgeP > 0) {
+      // Top Hook Badge
+      const hookP = easeOutBack(clamp(progress(0, 25), 0, 1));
+      if (hookP > 0) {
         ctx.save();
-        ctx.translate(w / 2, h * 0.28);
-        ctx.scale(badgeP, badgeP);
-        ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
-        ctx.strokeStyle = props.colorPrimary;
-        ctx.lineWidth = 3;
-        const bw = 320;
-        const bh = 54;
+        ctx.translate(w / 2, h * 0.18);
+        ctx.scale(hookP, hookP);
+        ctx.fillStyle = "rgba(18, 20, 32, 0.92)";
+        ctx.strokeStyle = props.colorSecondary;
+        ctx.lineWidth = 2.5;
         ctx.beginPath();
-        ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 27);
+        ctx.roundRect(-220, -30, 440, 60, 30);
         ctx.fill();
         ctx.stroke();
 
-        ctx.font = "bold 24px 'Cairo'";
+        ctx.font = "bold 26px 'Cairo'";
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(props.badge, 0, 0);
+        ctx.fillText(props.hook, 0, 0);
         ctx.restore();
       }
 
-      // 3. Kinetic Word Stagger (Title)
-      const words = props.title.split(" ");
+      // Center Floating Emoji
+      let emoji = "🚀";
+      if (currentFrame > totalFrames * 0.65) emoji = "💰";
+      else if (currentFrame > totalFrames * 0.35) emoji = "🔥";
+      ctx.font = "80px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(emoji, w / 2, h * 0.34);
+
+      // Karaoke Word Highlighting
+      const words = props.title.trim().split(/\s+/);
+      const activeIdx = Math.min(words.length - 1, Math.floor((currentFrame / (totalFrames * 0.85)) * words.length));
+      const style = getCaptionColors();
+
+      ctx.save();
+      ctx.translate(w / 2, h * 0.48);
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      const lineY = h * 0.46;
-      words.forEach((word, idx) => {
-        const start = 20 + idx * 8;
-        const p = easeOutBack(clamp(progress(start, start + 18), 0, 1));
-        if (p > 0) {
+      const wordsPerLine = 3;
+      for (let i = 0; i < words.length; i += wordsPerLine) {
+        const lWords = words.slice(i, i + wordsPerLine);
+        const ly = (i / wordsPerLine) * 105;
+        const wordGap = w * 0.28;
+        const startX = -((lWords.length - 1) * wordGap) / 2;
+
+        lWords.forEach((word, wIdx) => {
+          const globalIdx = i + wIdx;
+          const isCur = globalIdx === activeIdx;
+          const isPast = globalIdx < activeIdx;
+          const wx = startX + wIdx * wordGap;
+
           ctx.save();
-          const wordSpacing = 160;
-          const totalW = (words.length - 1) * wordSpacing;
-          const x = (w / 2) + ((idx - (words.length - 1) / 2) * wordSpacing);
-          const y = lineY + (1 - p) * 60;
-          ctx.translate(x, y);
-          ctx.scale(p, p);
+          ctx.translate(wx, ly);
+          if (isCur) {
+            ctx.scale(1.22, 1.22);
+            ctx.fillStyle = style.badgeBg;
+            ctx.strokeStyle = style.border;
+            ctx.lineWidth = 2.5;
+            const rw = ctx.measureText(word).width + 36;
+            ctx.beginPath();
+            ctx.roundRect(-rw / 2, -32, rw, 64, 16);
+            ctx.fill();
+            ctx.stroke();
 
-          ctx.font = "900 78px 'Cairo'";
-          ctx.shadowColor = props.colorPrimary;
-          ctx.shadowBlur = 25 * p;
-
-          if (idx % 2 === 0) {
+            ctx.shadowColor = style.glow;
+            ctx.shadowBlur = 25;
+            ctx.font = "900 52px 'Cairo'";
+            ctx.fillStyle = style.activeText;
+          } else if (isPast) {
+            ctx.font = "800 46px 'Cairo'";
             ctx.fillStyle = "#ffffff";
           } else {
-            const textGrad = ctx.createLinearGradient(-100, 0, 100, 0);
-            textGrad.addColorStop(0, props.colorPrimary);
-            textGrad.addColorStop(1, props.colorSecondary);
-            ctx.fillStyle = textGrad;
+            ctx.font = "700 44px 'Cairo'";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.32)";
           }
-
           ctx.fillText(word, 0, 0);
           ctx.restore();
-        }
-      });
-
-      // 4. Subtitle Fade-up (Starts at frame 55)
-      const subP = easeOutCubic(clamp(progress(55, 80), 0, 1));
-      if (subP > 0) {
-        ctx.save();
-        ctx.globalAlpha = subP;
-        ctx.font = "600 34px 'Cairo'";
-        ctx.fillStyle = "#94a3b8";
-        ctx.textAlign = "center";
-        ctx.fillText(props.subtitle, w / 2, h * 0.65 + (1 - subP) * 20);
-        ctx.restore();
+        });
       }
-
-      // 5. Kinetic Accent Line
-      const lineP = easeInOutQuad(clamp(progress(75, 120), 0, 1));
-      if (lineP > 0) {
-        ctx.save();
-        const maxLineWidth = 450;
-        const curW = maxLineWidth * lineP;
-        const lineGrad = ctx.createLinearGradient((w - curW) / 2, 0, (w + curW) / 2, 0);
-        lineGrad.addColorStop(0, props.colorPrimary);
-        lineGrad.addColorStop(1, props.colorSecondary);
-        ctx.fillStyle = lineGrad;
-        ctx.fillRect((w - curW) / 2, h * 0.73, curW, 6);
-        ctx.restore();
-      }
-    }
-
-    function renderProductShowcase() {
-      const w = canvas.width;
-      const h = canvas.height;
-
-      // Dark futuristic bg
-      ctx.fillStyle = "#07090e";
-      ctx.fillRect(0, 0, w, h);
-
-      // Grid background
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.03)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 60) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 60) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
-
-      // 3D Glass Card
-      const cardP = easeOutBack(clamp(progress(10, 45), 0, 1));
-      const floatOffset = Math.sin((currentFrame / 60) * Math.PI) * 15;
-
-      ctx.save();
-      ctx.translate(w / 2, h * 0.5 + floatOffset);
-      ctx.scale(cardP, cardP);
-
-      const cw = 700;
-      const ch = 420;
-
-      // Card Shadow & Glow
-      ctx.shadowColor = props.colorPrimary + "66";
-      ctx.shadowBlur = 40;
-      ctx.fillStyle = "rgba(20, 24, 38, 0.85)";
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(-cw / 2, -ch / 2, cw, ch, 24);
-      ctx.fill();
-      ctx.stroke();
-
-      // Inner Card Content
-      ctx.shadowBlur = 0;
-      ctx.font = "bold 22px 'Cairo'";
-      ctx.fillStyle = props.colorSecondary;
-      ctx.textAlign = "center";
-      ctx.fillText(props.badge, 0, -ch * 0.32);
-
-      ctx.font = "900 52px 'Cairo'";
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(props.title, 0, -ch * 0.08);
-
-      ctx.font = "500 24px 'Cairo'";
-      ctx.fillStyle = "#94a3b8";
-      ctx.fillText(props.subtitle, 0, ch * 0.12);
-
-      // Interactive Action Pill inside card
-      ctx.fillStyle = props.colorPrimary;
-      ctx.beginPath();
-      ctx.roundRect(-120, ch * 0.24, 240, 52, 26);
-      ctx.fill();
-
-      ctx.font = "bold 20px 'Cairo'";
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText("اكتشف الآن ✨", 0, ch * 0.3);
-
       ctx.restore();
+
+      renderAudioBars(w, h);
+      renderProgressBar(w, h);
     }
 
+    // --- TEMPLATE 5: Stats Boom & TEMPLATE 6: Terminal ---
     function renderStatsBoom() {
       const w = canvas.width;
       const h = canvas.height;
+      renderEnvironment(w, h);
 
-      ctx.fillStyle = "#060810";
-      ctx.fillRect(0, 0, w, h);
-
-      // Central circular shockwave
-      const waveP = (currentFrame % 90) / 90;
-      ctx.save();
-      ctx.strokeStyle = props.colorSecondary;
-      ctx.lineWidth = 3 * (1 - waveP);
-      ctx.beginPath();
-      ctx.arc(w / 2, h * 0.45, 120 + waveP * 200, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-
-      // Metric Counter Animation
       const numP = easeOutCubic(clamp(progress(15, 75), 0, 1));
-      const targetNum = parseInt(props.metric.replace(/\D/g, '')) || 850;
-      const currentNum = Math.floor(targetNum * numP);
+      const curNum = Math.floor(850 * numP);
 
       ctx.save();
       ctx.textAlign = "center";
@@ -1073,40 +1478,35 @@
 
       ctx.font = "bold 28px 'Cairo'";
       ctx.fillStyle = "#818cf8";
-      ctx.fillText(props.badge, w / 2, h * 0.25);
+      ctx.fillText(props.hook, w / 2, h * 0.3);
 
       ctx.font = "900 130px 'JetBrains Mono', monospace";
       ctx.fillStyle = "#ffffff";
       ctx.shadowColor = props.colorPrimary;
       ctx.shadowBlur = 35 * numP;
-      ctx.fillText("+" + currentNum + "%", w / 2, h * 0.45);
+      ctx.fillText("+" + curNum + "%", w / 2, h * 0.46);
 
       ctx.shadowBlur = 0;
-      ctx.font = "700 42px 'Cairo'";
+      ctx.font = "800 44px 'Cairo'";
       ctx.fillStyle = "#f8fafc";
-      ctx.fillText(props.title, w / 2, h * 0.65);
-
-      ctx.font = "500 26px 'Cairo'";
-      ctx.fillStyle = "#94a3b8";
-      ctx.fillText(props.subtitle, w / 2, h * 0.74);
+      ctx.fillText(props.title, w / 2, h * 0.62);
       ctx.restore();
+
+      renderAudioBars(w, h);
+      renderProgressBar(w, h);
     }
 
     function renderTerminal() {
       const w = canvas.width;
       const h = canvas.height;
+      renderEnvironment(w, h);
 
-      ctx.fillStyle = "#0c0d14";
-      ctx.fillRect(0, 0, w, h);
-
-      // Terminal Window
-      const tw = 860;
+      const tw = Math.min(w * 0.9, 440);
       const th = 480;
       ctx.save();
       ctx.translate(w / 2, h / 2);
 
-      // Window Frame
-      ctx.fillStyle = "#161822";
+      ctx.fillStyle = "#141724";
       ctx.strokeStyle = "#272a38";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -1114,80 +1514,86 @@
       ctx.fill();
       ctx.stroke();
 
-      // Window Header
-      ctx.fillStyle = "#1e2130";
-      ctx.beginPath();
-      ctx.roundRect(-tw / 2, -th / 2, tw, 48, [16, 16, 0, 0]);
-      ctx.fill();
-
-      // Window Buttons
-      ctx.fillStyle = "#ef4444";
-      ctx.beginPath();
-      ctx.arc(-tw / 2 + 30, -th / 2 + 24, 7, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#eab308";
-      ctx.beginPath();
-      ctx.arc(-tw / 2 + 52, -th / 2 + 24, 7, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#22c55e";
-      ctx.beginPath();
-      ctx.arc(-tw / 2 + 74, -th / 2 + 24, 7, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Window Title
-      ctx.font = "14px 'JetBrains Mono', monospace";
-      ctx.fillStyle = "#94a3b8";
-      ctx.textAlign = "center";
-      ctx.fillText("agent@antigravity: ~/video-generator", 0, -th / 2 + 28);
-
-      // Terminal Typewriter Content
-      const fullCommand = "npx skills add remotion-dev/skills && ai generate --render";
-      const charCount = Math.floor(clamp(progress(15, 75), 0, 1) * fullCommand.length);
-      const typedText = fullCommand.substring(0, charCount);
-
-      ctx.textAlign = "left";
-      ctx.font = "20px 'JetBrains Mono', monospace";
+      ctx.font = "18px 'JetBrains Mono', monospace";
       ctx.fillStyle = "#38bdf8";
-      ctx.fillText("$ " + typedText + (currentFrame % 30 < 15 ? "▋" : ""), -tw / 2 + 36, -th / 2 + 95);
+      ctx.textAlign = "left";
+      ctx.fillText("$ reelzatk ai --generate", -tw / 2 + 25, -th / 2 + 70);
 
-      if (currentFrame > 90) {
+      if (currentFrame > 60) {
         ctx.fillStyle = "#10b981";
-        ctx.fillText("✔ Video composition compiled in 480ms", -tw / 2 + 36, -th / 2 + 145);
+        ctx.fillText("✔ 3-Scenes Storyboard compiled", -tw / 2 + 25, -th / 2 + 120);
       }
-      if (currentFrame > 120) {
+      if (currentFrame > 110) {
         ctx.fillStyle = "#f59e0b";
-        ctx.fillText("✔ 60 FPS Spring animations injected", -tw / 2 + 36, -th / 2 + 185);
+        ctx.fillText("✔ Neon Karaoke timing synced", -tw / 2 + 25, -th / 2 + 165);
       }
-      if (currentFrame > 150) {
-        ctx.fillStyle = "#a855f7";
-        ctx.fillText("✔ Output: out/viral-promo.mp4 ready!", -tw / 2 + 36, -th / 2 + 225);
+      if (currentFrame > 160) {
+        ctx.fillStyle = "#ec4899";
+        ctx.fillText("✔ Export: 1080x1920 60FPS ready", -tw / 2 + 25, -th / 2 + 210);
       }
+      ctx.restore();
 
+      renderProgressBar(w, h);
+    }
+
+    // --- Helper Visualizers ---
+    function renderAudioBars(w, h) {
+      ctx.save();
+      const numBars = 30;
+      const barWidth = 6;
+      const barGap = 6;
+      const totalWidth = numBars * (barWidth + barGap);
+      const startX = (w - totalWidth) / 2;
+      const baseY = h * 0.88;
+
+      for (let i = 0; i < numBars; i++) {
+        const height = Math.abs(Math.sin(currentFrame * 0.28 + i * 0.45)) * 50 + 8;
+        const x = startX + i * (barWidth + barGap);
+        const grad = ctx.createLinearGradient(0, baseY - height, 0, baseY);
+        grad.addColorStop(0, props.colorSecondary);
+        grad.addColorStop(1, props.colorPrimary);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect(x, baseY - height, barWidth, height, 3);
+        ctx.fill();
+      }
       ctx.restore();
     }
 
+    function renderProgressBar(w, h) {
+      const p = currentFrame / totalFrames;
+      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.fillRect(0, h - 8, w, 8);
+
+      const grad = ctx.createLinearGradient(0, 0, w, 0);
+      grad.addColorStop(0, props.colorPrimary);
+      grad.addColorStop(1, props.colorSecondary);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, h - 8, w * p, 8);
+    }
+
+    // --- Main Render Frame Dispatcher ---
     function renderCurrentFrame() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (currentTemplate === 'reels-karaoke') {
+      if (currentTemplate === 'reels-faceless') {
+        renderFacelessReel();
+      } else if (currentTemplate === 'reels-product') {
+        renderProductReel();
+      } else if (currentTemplate === 'reels-wisdom') {
+        renderWisdomReel();
+      } else if (currentTemplate === 'reels-karaoke') {
         renderReelsKaraoke();
-      } else if (currentTemplate === 'kinetic') {
-        renderKineticTypography();
-      } else if (currentTemplate === 'product') {
-        renderProductShowcase();
       } else if (currentTemplate === 'stats') {
         renderStatsBoom();
       } else if (currentTemplate === 'terminal') {
         renderTerminal();
       }
 
-      // Update Slider and Time
       timeSlider.value = currentFrame;
-      const currentSec = (currentFrame / fps).toFixed(2);
-      const totalSec = durationSec.toFixed(2);
-      timeDisplay.innerText = `${currentSec}s / ${totalSec}s`;
+      const curSec = (currentFrame / fps).toFixed(2);
+      const totSec = durationSec.toFixed(2);
+      timeDisplay.innerText = `${curSec}s / ${totSec}s`;
     }
 
     function loop() {
@@ -1201,8 +1607,9 @@
       animationId = requestAnimationFrame(loop);
     }
 
-    // Controls
+    // --- Interactive Controls ---
     function togglePlay() {
+      soundEngine.init();
       isPlaying = !isPlaying;
       playBtn.innerText = isPlaying ? "⏸️ إيقاف" : "▶️ تشغيل";
     }
@@ -1234,14 +1641,18 @@
     }
 
     function selectTemplate(tmpl) {
+      soundEngine.init();
       currentTemplate = tmpl;
       document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
       event.currentTarget.classList.add('active');
-      if (tmpl === 'reels-karaoke') {
-        const sel = document.getElementById('aspectRatioSelect');
-        if (sel) sel.value = '9-16';
-        changeAspectRatio('9-16');
+
+      const tracker = document.getElementById('sceneTracker');
+      if (tmpl === 'reels-faceless') {
+        tracker.style.display = 'flex';
+      } else {
+        tracker.style.display = 'none';
       }
+
       currentFrame = 0;
       renderCurrentFrame();
     }
@@ -1270,14 +1681,37 @@
       renderCurrentFrame();
     }
 
+    function toggleSFX() {
+      soundEngine.init();
+      soundEngine.enabled = !soundEngine.enabled;
+      const btn = document.getElementById('sfxToggleBtn');
+      const text = document.getElementById('sfxText');
+      const icon = document.getElementById('sfxIcon');
+      const badge = document.getElementById('sfxStatusBadge');
+
+      if (soundEngine.enabled) {
+        btn.className = "btn btn-audio active";
+        text.innerText = "المؤثرات الصوتية: مفعّلة";
+        icon.innerText = "🔊";
+        badge.innerText = "🔊 صوت سنثسيزر مدمج";
+      } else {
+        btn.className = "btn btn-audio";
+        text.innerText = "المؤثرات الصوتية: مكتومة";
+        icon.innerText = "🔇";
+        badge.innerText = "🔇 الصوت مكتوم";
+      }
+    }
+
     function applyProps() {
+      props.hook = document.getElementById('propHook').value;
       props.title = document.getElementById('propTitle').value;
-      props.subtitle = document.getElementById('propSubtitle').value;
-      props.badge = document.getElementById('propBadge').value;
-      props.metric = document.getElementById('propMetric').value;
+      props.cta = document.getElementById('propCTA').value;
+      props.price = document.getElementById('propPrice').value;
+      props.env = document.getElementById('propEnv').value;
+      props.captionStyle = document.getElementById('propCaptionStyle').value;
       props.colorPrimary = document.getElementById('propColorPrimary').value;
       props.colorSecondary = document.getElementById('propColorSecondary').value;
-      props.colorBg = document.getElementById('propColorBg').value;
+      props.colorAccent = document.getElementById('propColorAccent').value;
 
       document.documentElement.style.setProperty('--accent', props.colorPrimary);
       document.documentElement.style.setProperty('--accent-secondary', props.colorSecondary);
@@ -1286,25 +1720,56 @@
       renderCurrentFrame();
     }
 
-    // --- Direct Video Exporter (Using MediaRecorder API) ---
+    // --- Audio File Upload Handler ---
+    function handleAudioUpload(e) {
+      soundEngine.init();
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+      const audio = new Audio(url);
+      audio.onloadedmetadata = () => {
+        const sec = Math.ceil(audio.duration);
+        if (sec > 0 && sec <= 60) {
+          durationSec = sec;
+          totalFrames = durationSec * fps;
+          timeSlider.max = totalFrames;
+          document.getElementById('durationSelect').value = sec > 8 ? 8 : (sec > 5 ? 6 : 4);
+        }
+        document.getElementById('sfxStatusBadge').innerText = `🎵 تم ربط: ${file.name.substring(0, 15)}...`;
+      };
+      soundEngine.uploadedAudio = audio;
+    }
+
+    // --- Video & Audio Combined Exporter ---
     async function exportVideo() {
+      soundEngine.init();
       const exportBtn = document.getElementById('exportBtn');
       exportBtn.disabled = true;
-      exportBtn.innerText = "⏳ جاري التسجيل والرندر...";
+      exportBtn.innerText = "⏳ جاري التسجيل والرندر (60 FPS)...";
       toast.style.display = "block";
-      toast.innerText = "جاري التقاط الفريمات وتسجيل الفيديو 60 FPS...";
+      toast.innerText = "جاري التقاط الفريمات وتوليد مسار الصوت...";
 
-      const stream = canvas.captureStream(60);
+      // Combine Canvas Stream + Web Audio Synthesizer Stream
+      const canvasStream = canvas.captureStream(60);
+      const audioStream = soundEngine.dest ? soundEngine.dest.stream : null;
+
+      const combinedTracks = [...canvasStream.getVideoTracks()];
+      if (audioStream && audioStream.getAudioTracks().length > 0) {
+        combinedTracks.push(...audioStream.getAudioTracks());
+      }
+
+      const combinedStream = new MediaStream(combinedTracks);
       const recordedChunks = [];
 
-      let mimeType = 'video/webm;codecs=vp9';
+      let mimeType = 'video/webm;codecs=vp9,opus';
       if (!MediaRecorder.isTypeSupported(mimeType)) {
         mimeType = 'video/webm';
       }
 
-      const recorder = new MediaRecorder(stream, {
+      const recorder = new MediaRecorder(combinedStream, {
         mimeType: mimeType,
-        videoBitsPerSecond: 8000000 // 8 Mbps for sharp crisp video
+        videoBitsPerSecond: 9000000 // 9 Mbps high bit-rate
       });
 
       recorder.ondataavailable = (e) => {
@@ -1316,17 +1781,16 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `motion-video-${currentTemplate}-${Date.now()}.webm`;
+        a.download = `reel-${currentTemplate}-${Date.now()}.webm`;
         a.click();
         URL.revokeObjectURL(url);
 
         exportBtn.disabled = false;
-        exportBtn.innerText = "🎥 تصدير الفيديو (MP4/WebM)";
-        toast.innerText = "🎉 تم تنزيل الفيديو بنجاح!";
+        exportBtn.innerText = "🎥 تصدير الفيديو (60 FPS + صوت)";
+        toast.innerText = "🎉 تم تنزيل الريل بنجاح بجودة عالية!";
         setTimeout(() => { toast.style.display = "none"; }, 3500);
       };
 
-      // Restart from frame 0 and record one complete loop
       isPlaying = false;
       currentFrame = 0;
       recorder.start();
@@ -1344,7 +1808,7 @@
       }, recordInterval);
     }
 
-    // Start
+    // Start Engine
     animationId = requestAnimationFrame(loop);
   </script>
 </body>

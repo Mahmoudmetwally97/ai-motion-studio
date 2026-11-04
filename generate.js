@@ -1,7 +1,7 @@
 /**
- * AI Motion Studio - Automated Video Spec Generator
+ * AI Motion Studio Pro - Video Spec Generator (Reelzatk & Motion Skills Edition)
  * Usage:
- *   node generate.js --title "مرحبًا بكم" --subtitle "فيديو موشن بالذكاء الاصطناعي" --template "kinetic" --aspect "9-16"
+ *   node generate.js --template "reels-faceless" --hook "⚠️ سر خطير!" --title "الذكاء الاصطناعي يصنع الفيديوهات" --cta "احفظ الفيديو وشاركه" --env "aurora"
  */
 
 const fs = require('fs');
@@ -10,15 +10,18 @@ const path = require('path');
 function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
-    title: 'الذكاء الاصطناعي يصنع الفيديوهات!',
-    subtitle: 'برمجة موشن جرافيك فائق السرعة بالكود وAI',
-    badge: '🔥 إطلاق جديد 2026',
-    metric: '+850%',
-    template: 'reels-karaoke', // reels-karaoke, kinetic, product, stats, terminal
-    aspect: '9-16',            // 9-16, 16-9, 1-1
-    duration: 5,
+    template: 'reels-faceless', // reels-faceless, reels-product, reels-wisdom, reels-karaoke, stats, terminal
+    aspect: '9-16',            // 9-16 (Reels/Shorts), 16-9, 1-1
+    hook: '⚠️ سر خطير في 2026!',
+    title: 'الذكاء الاصطناعي هيصنعلك كل فيديوهاتك في ثواني معدودة',
+    cta: 'احفظ الفيديو وشاركنا رأيك بالتعليقات 💾',
+    price: 'خصم 40% لفترة محدودة ⚡',
+    duration: 6,
+    env: 'aurora',             // aurora, studio, royal, grid
+    captionStyle: 'neon-yellow', // neon-yellow, emerald-green, cyber-pink, pure-white
     colorPrimary: '#6366f1',
     colorSecondary: '#ec4899',
+    colorAccent: '#facc15',
     output: 'video-spec.json'
   };
 
@@ -42,10 +45,12 @@ const outputPath = path.resolve(__dirname, config.output);
 
 fs.writeFileSync(outputPath, JSON.stringify(config, null, 2), 'utf-8');
 
-console.log(`✨ Generated Video Spec successfully!`);
+console.log(`✨ Generated Reelzatk-Style Video Spec successfully!`);
 console.log(`📁 File saved to: ${outputPath}`);
 console.log(`📺 Parameters:`);
-console.log(`   - Template: ${config.template}`);
-console.log(`   - Aspect:   ${config.aspect}`);
-console.log(`   - Title:    ${config.title}`);
-console.log(`   - Duration: ${config.duration}s`);
+console.log(`   - Template:     ${config.template}`);
+console.log(`   - Aspect:       ${config.aspect}`);
+console.log(`   - Environment:  ${config.env}`);
+console.log(`   - CaptionStyle: ${config.captionStyle}`);
+console.log(`   - Hook:         ${config.hook}`);
+console.log(`   - Duration:     ${config.duration}s`);

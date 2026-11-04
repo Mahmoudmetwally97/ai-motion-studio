@@ -1,12 +1,15 @@
 {
-  "title": "أهلاً بكم في استوديو الموشن",
-  "subtitle": "تم بناء النظام بنجاح",
-  "badge": "🔥 إطلاق جديد 2026",
-  "metric": "+850%",
-  "template": "kinetic",
-  "aspect": "16-9",
-  "duration": 5,
+  "template": "reels-faceless",
+  "aspect": "9-16",
+  "hook": "⚠️ سر خطير في 2026!",
+  "title": "الذكاء الاصطناعي هيصنعلك كل فيديوهاتك في ثواني معدودة",
+  "cta": "احفظ الفيديو وشاركنا رأيك بالتعليقات 💾",
+  "price": "خصم 40% لفترة محدودة ⚡",
+  "duration": 6,
+  "env": "aurora",
+  "captionStyle": "neon-yellow",
   "colorPrimary": "#6366f1",
   "colorSecondary": "#ec4899",
+  "colorAccent": "#facc15",
   "output": "video-spec.json"
 }
