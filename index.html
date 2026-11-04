@@ -425,8 +425,8 @@
     </div>
     <div class="header-actions">
       <select id="aspectRatioSelect" onchange="changeAspectRatio(this.value)">
-        <option value="9-16">📱 تيك توك و ريلز (9:16)</option>
-        <option value="16-9" selected>💻 فيديو يوتيوب وعرض (16:9)</option>
+        <option value="9-16" selected>📱 تيك توك و ريلز (9:16)</option>
+        <option value="16-9">💻 فيديو يوتيوب وعرض (16:9)</option>
         <option value="1-1">⏹️ بوست مربع (1:1)</option>
       </select>
       <button class="btn btn-success" id="exportBtn" onclick="exportVideo()">
@@ -442,10 +442,16 @@
     <div class="panel">
       <div class="panel-header">
         <span>قوالب الموشن الذكية</span>
-        <span class="badge" id="templateCount">4 قوالب</span>
+        <span class="badge" id="templateCount">5 قوالب</span>
       </div>
 
-      <div class="template-card active" onclick="selectTemplate('kinetic')">
+      <div class="template-card active" onclick="selectTemplate('reels-karaoke')">
+        <div class="template-tag">🔥 Viral Reels Pro</div>
+        <div class="template-title">ريلز بكلمات كاراوكي وإيموجي متفاعلة</div>
+        <div class="template-desc">إضاءة الكلمة النشطة كلمة بكلمة (Karaoke Pop) مع موجات صوتية وإيموجي وشارات هوك جذابة.</div>
+      </div>
+
+      <div class="template-card" onclick="selectTemplate('kinetic')">
         <div class="template-tag">Kinetic Typography</div>
         <div class="template-title">نصوص تفاعلية سريعة (Viral Shorts)</div>
         <div class="template-desc">انتقالات سريعة كلمة بكلمة مع ألوان نيون وخلفية ديناميكية مناسبة لريلز وإنستغرام.</div>
@@ -473,8 +479,8 @@
     <!-- Center: Live Stage -->
     <div class="stage-container">
       <div class="viewport">
-        <div class="canvas-wrapper aspect-16-9" id="canvasWrapper">
-          <canvas id="motionCanvas" width="1920" height="1080"></canvas>
+        <div class="canvas-wrapper aspect-9-16" id="canvasWrapper">
+          <canvas id="motionCanvas" width="1080" height="1920"></canvas>
         </div>
       </div>
 
@@ -577,7 +583,7 @@
     let totalFrames = durationSec * fps;
     let currentFrame = 0;
     let isPlaying = true;
-    let currentTemplate = 'kinetic';
+    let currentTemplate = 'reels-karaoke';
     let animationId = null;
 
     // Custom Props
@@ -617,6 +623,188 @@
     }
 
     // --- Render Loops per Template ---
+
+    function renderReelsKaraoke() {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // 1. Deep Dark Vignette Background
+      ctx.fillStyle = "#05060a";
+      ctx.fillRect(0, 0, w, h);
+
+      // Ambient dynamic glowing aura
+      const pulse = Math.sin((currentFrame / 30) * Math.PI) * 0.15 + 0.85;
+      const grad = ctx.createRadialGradient(w / 2, h * 0.45, 50, w / 2, h * 0.45, w * 0.65);
+      grad.addColorStop(0, "rgba(99, 102, 241, 0.28)");
+      grad.addColorStop(0.5, "rgba(236, 72, 153, 0.15)");
+      grad.addColorStop(1, "transparent");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Ambient floating neon particles
+      for (let i = 0; i < 15; i++) {
+        const px = (Math.sin(i * 123 + currentFrame * 0.02) * 0.5 + 0.5) * w;
+        const py = ((i * 157 - currentFrame * 1.5) % h + h) % h;
+        const pSize = (i % 3) + 2;
+        ctx.fillStyle = i % 2 === 0 ? "rgba(99, 102, 241, 0.4)" : "rgba(236, 72, 153, 0.4)";
+        ctx.beginPath();
+        ctx.arc(px, py, pSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 2. Top Viral Hook Badge
+      const hookP = easeOutBack(clamp(progress(0, 25), 0, 1));
+      if (hookP > 0) {
+        ctx.save();
+        ctx.translate(w / 2, h * 0.18);
+        ctx.scale(hookP, hookP);
+
+        const bw = Math.min(w * 0.88, 480);
+        const bh = 60;
+        
+        ctx.shadowColor = props.colorSecondary;
+        ctx.shadowBlur = 20 * pulse;
+        ctx.fillStyle = "rgba(18, 20, 32, 0.9)";
+        ctx.strokeStyle = props.colorSecondary;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 30);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.shadowBlur = 0;
+        ctx.font = "bold 26px 'Cairo'";
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(props.badge || "⚠️ نصيحة سرية للمحتوى 2026", 0, 0);
+        ctx.restore();
+      }
+
+      // 3. Center Floating Animated 3D Emoji Pop
+      let activeEmoji = "🚀";
+      if (currentFrame > totalFrames * 0.65) activeEmoji = "💰";
+      else if (currentFrame > totalFrames * 0.35) activeEmoji = "🔥";
+
+      const emojiPhase = (currentFrame % 45) / 45;
+      const emojiBounce = Math.sin(emojiPhase * Math.PI) * 12;
+      const emojiScale = 1 + Math.sin(currentFrame * 0.1) * 0.08;
+
+      ctx.save();
+      ctx.translate(w / 2, h * 0.34 - emojiBounce);
+      ctx.scale(emojiScale, emojiScale);
+      ctx.font = "80px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.shadowColor = props.colorPrimary;
+      ctx.shadowBlur = 25;
+      ctx.fillText(activeEmoji, 0, 0);
+      ctx.restore();
+
+      // 4. Karaoke Dynamic Word Highlighting
+      const words = (props.title + " " + props.subtitle).trim().split(/\s+/);
+      const activeWordIdx = Math.min(words.length - 1, Math.floor((currentFrame / (totalFrames * 0.85)) * words.length));
+
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      
+      const wordsPerLine = 3;
+      const lines = [];
+      for (let i = 0; i < words.length; i += wordsPerLine) {
+        lines.push(words.slice(i, i + wordsPerLine));
+      }
+
+      const startY = h * 0.48;
+      const lineSpacing = 100;
+
+      let globalWordCounter = 0;
+
+      lines.forEach((lineWords, lineIdx) => {
+        const lineY = startY + lineIdx * lineSpacing;
+        const totalLineWords = lineWords.length;
+        const wordGap = w * 0.28;
+        const lineStartX = (w / 2) - ((totalLineWords - 1) * wordGap) / 2;
+
+        lineWords.forEach((word, wordInLineIdx) => {
+          const isCurrent = globalWordCounter === activeWordIdx;
+          const isPast = globalWordCounter < activeWordIdx;
+          const wordX = lineStartX + wordInLineIdx * wordGap;
+
+          ctx.save();
+          ctx.translate(wordX, lineY);
+
+          if (isCurrent) {
+            ctx.scale(1.22, 1.22);
+            ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+            ctx.strokeStyle = "#facc15";
+            ctx.lineWidth = 2.5;
+            const textMetrics = ctx.measureText(word);
+            const padX = 22;
+            const rw = textMetrics.width + padX * 2 + 10;
+            const rh = 64;
+            ctx.beginPath();
+            ctx.roundRect(-rw / 2, -rh / 2, rw, rh, 16);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.shadowColor = "#facc15";
+            ctx.shadowBlur = 30;
+            ctx.font = "900 52px 'Cairo'";
+            ctx.fillStyle = "#facc15";
+          } else if (isPast) {
+            ctx.font = "800 46px 'Cairo'";
+            ctx.fillStyle = "#ffffff";
+            ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+            ctx.shadowBlur = 10;
+          } else {
+            ctx.font = "700 44px 'Cairo'";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+          }
+
+          ctx.fillText(word, 0, 0);
+          ctx.restore();
+
+          globalWordCounter++;
+        });
+      });
+      ctx.restore();
+
+      // 5. Bottom Audio Waveform Visualizer
+      ctx.save();
+      const numBars = 32;
+      const barWidth = 6;
+      const barGap = 6;
+      const totalWaveWidth = numBars * (barWidth + barGap);
+      const waveStartX = (w - totalWaveWidth) / 2;
+      const waveBaseY = h * 0.88;
+
+      for (let i = 0; i < numBars; i++) {
+        const barHeight = Math.abs(Math.sin(currentFrame * 0.25 + i * 0.45)) * 55 + 8;
+        const x = waveStartX + i * (barWidth + barGap);
+
+        const barGrad = ctx.createLinearGradient(0, waveBaseY - barHeight, 0, waveBaseY);
+        barGrad.addColorStop(0, props.colorSecondary);
+        barGrad.addColorStop(1, props.colorPrimary);
+
+        ctx.fillStyle = barGrad;
+        ctx.beginPath();
+        ctx.roundRect(x, waveBaseY - barHeight, barWidth, barHeight, 3);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // 6. Bottom Video Progress Bar (Reels Watch-Time Indicator)
+      const completionP = currentFrame / totalFrames;
+      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+      ctx.fillRect(0, h - 8, w, 8);
+
+      const progGrad = ctx.createLinearGradient(0, 0, w, 0);
+      progGrad.addColorStop(0, props.colorPrimary);
+      progGrad.addColorStop(1, props.colorSecondary);
+      ctx.fillStyle = progGrad;
+      ctx.fillRect(0, h - 8, w * completionP, 8);
+    }
 
     function renderKineticTypography() {
       const w = canvas.width;
@@ -931,7 +1119,9 @@
     function renderCurrentFrame() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (currentTemplate === 'kinetic') {
+      if (currentTemplate === 'reels-karaoke') {
+        renderReelsKaraoke();
+      } else if (currentTemplate === 'kinetic') {
         renderKineticTypography();
       } else if (currentTemplate === 'product') {
         renderProductShowcase();
@@ -995,6 +1185,11 @@
       currentTemplate = tmpl;
       document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
       event.currentTarget.classList.add('active');
+      if (tmpl === 'reels-karaoke') {
+        const sel = document.getElementById('aspectRatioSelect');
+        if (sel) sel.value = '9-16';
+        changeAspectRatio('9-16');
+      }
       currentFrame = 0;
       renderCurrentFrame();
     }

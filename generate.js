@@ -14,8 +14,8 @@ function parseArgs() {
     subtitle: 'برمجة موشن جرافيك فائق السرعة بالكود وAI',
     badge: '🔥 إطلاق جديد 2026',
     metric: '+850%',
-    template: 'kinetic', // kinetic, product, stats, terminal
-    aspect: '16-9',     // 16-9, 9-16, 1-1
+    template: 'reels-karaoke', // reels-karaoke, kinetic, product, stats, terminal
+    aspect: '9-16',            // 9-16, 16-9, 1-1
     duration: 5,
     colorPrimary: '#6366f1',
     colorSecondary: '#ec4899',
