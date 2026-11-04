@@ -1,0 +1,19 @@
+{
+  "name": "ai-motion-studio",
+  "version": "1.0.0",
+  "description": "AI-Powered Programmatic Motion Graphics & Video Generation Studio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "generate": "node generate.js"
+  },
+  "keywords": [
+    "motion-graphics",
+    "remotion",
+    "ai-video",
+    "canvas-video",
+    "animation"
+  ],
+  "author": "AI Motion Agent",
+  "license": "MIT"
+}

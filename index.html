@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Motion Studio | استوديو الموشن جرافيك وصناعة الفيديو بالذكاء الاصطناعي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0b10;
+      --bg-panel: #12141c;
+      --bg-card: #181b26;
+      --border: #262b3d;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.4);
+      --accent-secondary: #ec4899;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', system-ui, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Top Navigation */
+    header {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.5px;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Main Workspace */
+    .workspace {
+      display: grid;
+      grid-template-columns: 340px 1fr 340px;
+      flex: 1;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+    }
+
+    /* Left Panel: Templates & Presets */
+    .panel {
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .panel-right {
+      border-left: none;
+      border-right: 1px solid var(--border);
+    }
+
+    .panel-header {
+      padding: 16px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(18, 20, 28, 0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .template-card {
+      padding: 14px;
+      margin: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .template-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .template-card.active {
+      border-color: var(--accent);
+      background: linear-gradient(145deg, rgba(99, 102, 241, 0.12), rgba(24, 27, 38, 0.9));
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+
+    .template-tag {
+      font-size: 0.7rem;
+      color: #818cf8;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .template-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .template-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Center Stage / Preview Canvas */
+    .stage-container {
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at center, #151824 0%, #08090d 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .viewport {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Aspect Ratio classes */
+    .aspect-9-16 {
+      width: 337px;
+      height: 600px;
+    }
+
+    .aspect-16-9 {
+      width: 720px;
+      height: 405px;
+    }
+
+    .aspect-1-1 {
+      width: 480px;
+      height: 480px;
+    }
+
+    /* Bottom Control Bar / Timeline */
+    .timeline-bar {
+      height: 90px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 20;
+    }
+
+    .timeline-scrubber {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .time-slider {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 6px;
+      background: #262b3d;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .time-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .time-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .playback-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #242938;
+      border-color: #3b4259;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #4f46e5;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-success {
+      background: #059669;
+      border-color: #059669;
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: #047857;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-icon {
+      padding: 8px 12px;
+    }
+
+    /* Right Panel: Inspector & Customization */
+    .form-group {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    input[type="text"], textarea, select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    .color-picker-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 6px;
+    }
+
+    /* Render Toast / Overlay */
+    .toast {
+      position: fixed;
+      bottom: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e1b4b;
+      border: 1px solid #4338ca;
+      color: #c7d2fe;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, 10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">⚡</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="brand-title">AI Motion Studio</span>
+          <span class="badge">v1.0 Pro</span>
+        </div>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">نظام صناعة الموشن جرافيك والفيديوهات البرمجية للذكاء الاصطناعي</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <select id="aspectRatioSelect" onchange="changeAspectRatio(this.value)">
+        <option value="9-16">📱 تيك توك و ريلز (9:16)</option>
+        <option value="16-9" selected>💻 فيديو يوتيوب وعرض (16:9)</option>
+        <option value="1-1">⏹️ بوست مربع (1:1)</option>
+      </select>
+      <button class="btn btn-success" id="exportBtn" onclick="exportVideo()">
+        <span>🎥 تصدير الفيديو (MP4/WebM)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace -->
+  <div class="workspace">
+
+    <!-- Left: Templates List -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>قوالب الموشن الذكية</span>
+        <span class="badge" id="templateCount">4 قوالب</span>
+      </div>
+
+      <div class="template-card active" onclick="selectTemplate('kinetic')">
+        <div class="template-tag">Kinetic Typography</div>
+        <div class="template-title">نصوص تفاعلية سريعة (Viral Shorts)</div>
+        <div class="template-desc">انتقالات سريعة كلمة بكلمة مع ألوان نيون وخلفية ديناميكية مناسبة لريلز وإنستغرام.</div>
+      </div>
+
+      <div class="template-card" onclick="selectTemplate('product')">
+        <div class="template-tag">3D Tech Showcase</div>
+        <div class="template-title">عرض بطاقة منتج ثلاثية الأبعاد</div>
+        <div class="template-desc">تأثير زجاجي Glassmorphism مع حركة دوران ناعمة وشعارات ومميزات عائمة.</div>
+      </div>
+
+      <div class="template-card" onclick="selectTemplate('stats')">
+        <div class="template-tag">Data & Growth Boom</div>
+        <div class="template-title">انفجار الأرقام والإحصائيات</div>
+        <div class="template-desc">عدّاد أرقام متصاعد مع رسم بياني متوهج وموجات احتفالية بمعدلات النمو.</div>
+      </div>
+
+      <div class="template-card" onclick="selectTemplate('terminal')">
+        <div class="template-tag">Developer & AI Coding</div>
+        <div class="template-title">محرر أكواد وسطر أوامر متفاعل</div>
+        <div class="template-desc">كتابة كود حية حرفاً بحرف مع إشعارات نجاح وتأثيرات الهاكرز البرمجية.</div>
+      </div>
+    </div>
+
+    <!-- Center: Live Stage -->
+    <div class="stage-container">
+      <div class="viewport">
+        <div class="canvas-wrapper aspect-16-9" id="canvasWrapper">
+          <canvas id="motionCanvas" width="1920" height="1080"></canvas>
+        </div>
+      </div>
+
+      <!-- Timeline Bar -->
+      <div class="timeline-bar">
+        <div class="timeline-scrubber">
+          <input type="range" id="timeSlider" class="time-slider" min="0" max="300" value="0" oninput="seekToFrame(this.value)">
+          <div class="time-display" id="timeDisplay">00:00 / 05:00</div>
+        </div>
+        <div class="controls-row">
+          <div class="playback-buttons">
+            <button class="btn btn-icon" onclick="stepBack()">⏮️</button>
+            <button class="btn btn-primary btn-icon" id="playBtn" onclick="togglePlay()">▶️ تشغيل</button>
+            <button class="btn btn-icon" onclick="stepForward()">⏭️</button>
+            <button class="btn btn-icon" onclick="resetPlay()">🔄 إعادة</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">المعدل: 60 FPS</span>
+            <span class="badge" id="renderingBadge">جاهز للرندر</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Properties Inspector -->
+    <div class="panel panel-right">
+      <div class="panel-header">
+        <span>محرر الخصائص والنصوص</span>
+        <span class="badge">Live Sync</span>
+      </div>
+
+      <div class="form-group">
+        <label>العنوان الرئيسي (Title)</label>
+        <input type="text" id="propTitle" value="الذكاء الاصطناعي يصنع الفيديوهات!">
+      </div>
+
+      <div class="form-group">
+        <label>العنوان الفرعي أو الوصف (Subtitle)</label>
+        <input type="text" id="propSubtitle" value="برمجة موشن جرافيك فائق السرعة بالكود وAI">
+      </div>
+
+      <div class="form-group">
+        <label>الشارة أو التصنيف (Badge Tag)</label>
+        <input type="text" id="propBadge" value="🔥 إطلاق جديد 2026">
+      </div>
+
+      <div class="form-group">
+        <label>الرقم المميز / الإحصائية (للقالب الإحصائي)</label>
+        <input type="text" id="propMetric" value="+850%">
+      </div>
+
+      <div class="form-group">
+        <label>الألوان الرئيسية (Colors)</label>
+        <div class="color-picker-row">
+          <div>
+            <label style="font-size:0.7rem; display:block;">اللون الأساسي</label>
+            <input type="color" id="propColorPrimary" value="#6366f1">
+          </div>
+          <div>
+            <label style="font-size:0.7rem; display:block;">اللون الثانوي</label>
+            <input type="color" id="propColorSecondary" value="#ec4899">
+          </div>
+          <div>
+            <label style="font-size:0.7rem; display:block;">لون الخلفية</label>
+            <input type="color" id="propColorBg" value="#0a0c16">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>مدة الفيديو (بالثواني)</label>
+        <select id="durationSelect" onchange="changeDuration(this.value)">
+          <option value="3">3 ثوانٍ (سريع جداً)</option>
+          <option value="5" selected>5 ثوانٍ (مثالي للسوشيال)</option>
+          <option value="8">8 ثوانٍ (شامل وهادئ)</option>
+        </select>
+      </div>
+
+      <div style="padding:16px; margin-top:auto;">
+        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="applyProps()">
+          تطبيق التعديلات الحالية ⚡
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">جاري تسجيل وتصدير الفيديو... برجاء الانتظار</div>
+
+  <script>
+    // --- Motion Graphics Engine State ---
+    const canvas = document.getElementById('motionCanvas');
+    const ctx = canvas.getContext('2d');
+    const timeSlider = document.getElementById('timeSlider');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const playBtn = document.getElementById('playBtn');
+    const toast = document.getElementById('toast');
+
+    let fps = 60;
+    let durationSec = 5;
+    let totalFrames = durationSec * fps;
+    let currentFrame = 0;
+    let isPlaying = true;
+    let currentTemplate = 'kinetic';
+    let animationId = null;
+
+    // Custom Props
+    let props = {
+      title: "الذكاء الاصطناعي يصنع الفيديوهات!",
+      subtitle: "برمجة موشن جرافيك فائق السرعة بالكود وAI",
+      badge: "🔥 إطلاق جديد 2026",
+      metric: "+850%",
+      colorPrimary: "#6366f1",
+      colorSecondary: "#ec4899",
+      colorBg: "#0a0c16"
+    };
+
+    // Interpolation & Spring helpers
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    function easeOutBack(x) {
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+    }
+
+    function easeOutCubic(x) {
+      return 1 - Math.pow(1 - x, 3);
+    }
+
+    function easeInOutQuad(x) {
+      return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+    }
+
+    function progress(start, end, f = currentFrame) {
+      if (f < start) return 0;
+      if (f > end) return 1;
+      return (f - start) / (end - start);
+    }
+
+    // --- Render Loops per Template ---
+
+    function renderKineticTypography() {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // 1. Dynamic Mesh Gradient Background
+      ctx.fillStyle = props.colorBg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Ambient Glowing orbs
+      const glowProgress = currentFrame / totalFrames;
+      const orbX1 = w * 0.3 + Math.sin(glowProgress * Math.PI * 2) * 150;
+      const orbY1 = h * 0.4 + Math.cos(glowProgress * Math.PI * 2) * 100;
+      const grad1 = ctx.createRadialGradient(orbX1, orbY1, 50, orbX1, orbY1, 600);
+      grad1.addColorStop(0, props.colorPrimary + "55");
+      grad1.addColorStop(1, "transparent");
+      ctx.fillStyle = grad1;
+      ctx.fillRect(0, 0, w, h);
+
+      const orbX2 = w * 0.7 - Math.sin(glowProgress * Math.PI * 2) * 120;
+      const orbY2 = h * 0.6 - Math.cos(glowProgress * Math.PI * 2) * 80;
+      const grad2 = ctx.createRadialGradient(orbX2, orbY2, 50, orbX2, orbY2, 550);
+      grad2.addColorStop(0, props.colorSecondary + "44");
+      grad2.addColorStop(1, "transparent");
+      ctx.fillStyle = grad2;
+      ctx.fillRect(0, 0, w, h);
+
+      // 2. Badge Animation (0 to 30 frames)
+      const badgeP = easeOutBack(clamp(progress(0, 25), 0, 1));
+      if (badgeP > 0) {
+        ctx.save();
+        ctx.translate(w / 2, h * 0.28);
+        ctx.scale(badgeP, badgeP);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.strokeStyle = props.colorPrimary;
+        ctx.lineWidth = 3;
+        const bw = 320;
+        const bh = 54;
+        ctx.beginPath();
+        ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 27);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = "bold 24px 'Cairo'";
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(props.badge, 0, 0);
+        ctx.restore();
+      }
+
+      // 3. Kinetic Word Stagger (Title)
+      const words = props.title.split(" ");
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      const lineY = h * 0.46;
+      words.forEach((word, idx) => {
+        const start = 20 + idx * 8;
+        const p = easeOutBack(clamp(progress(start, start + 18), 0, 1));
+        if (p > 0) {
+          ctx.save();
+          const wordSpacing = 160;
+          const totalW = (words.length - 1) * wordSpacing;
+          const x = (w / 2) + ((idx - (words.length - 1) / 2) * wordSpacing);
+          const y = lineY + (1 - p) * 60;
+          ctx.translate(x, y);
+          ctx.scale(p, p);
+
+          ctx.font = "900 78px 'Cairo'";
+          ctx.shadowColor = props.colorPrimary;
+          ctx.shadowBlur = 25 * p;
+
+          if (idx % 2 === 0) {
+            ctx.fillStyle = "#ffffff";
+          } else {
+            const textGrad = ctx.createLinearGradient(-100, 0, 100, 0);
+            textGrad.addColorStop(0, props.colorPrimary);
+            textGrad.addColorStop(1, props.colorSecondary);
+            ctx.fillStyle = textGrad;
+          }
+
+          ctx.fillText(word, 0, 0);
+          ctx.restore();
+        }
+      });
+
+      // 4. Subtitle Fade-up (Starts at frame 55)
+      const subP = easeOutCubic(clamp(progress(55, 80), 0, 1));
+      if (subP > 0) {
+        ctx.save();
+        ctx.globalAlpha = subP;
+        ctx.font = "600 34px 'Cairo'";
+        ctx.fillStyle = "#94a3b8";
+        ctx.textAlign = "center";
+        ctx.fillText(props.subtitle, w / 2, h * 0.65 + (1 - subP) * 20);
+        ctx.restore();
+      }
+
+      // 5. Kinetic Accent Line
+      const lineP = easeInOutQuad(clamp(progress(75, 120), 0, 1));
+      if (lineP > 0) {
+        ctx.save();
+        const maxLineWidth = 450;
+        const curW = maxLineWidth * lineP;
+        const lineGrad = ctx.createLinearGradient((w - curW) / 2, 0, (w + curW) / 2, 0);
+        lineGrad.addColorStop(0, props.colorPrimary);
+        lineGrad.addColorStop(1, props.colorSecondary);
+        ctx.fillStyle = lineGrad;
+        ctx.fillRect((w - curW) / 2, h * 0.73, curW, 6);
+        ctx.restore();
+      }
+    }
+
+    function renderProductShowcase() {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Dark futuristic bg
+      ctx.fillStyle = "#07090e";
+      ctx.fillRect(0, 0, w, h);
+
+      // Grid background
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.03)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 60) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 60) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // 3D Glass Card
+      const cardP = easeOutBack(clamp(progress(10, 45), 0, 1));
+      const floatOffset = Math.sin((currentFrame / 60) * Math.PI) * 15;
+
+      ctx.save();
+      ctx.translate(w / 2, h * 0.5 + floatOffset);
+      ctx.scale(cardP, cardP);
+
+      const cw = 700;
+      const ch = 420;
+
+      // Card Shadow & Glow
+      ctx.shadowColor = props.colorPrimary + "66";
+      ctx.shadowBlur = 40;
+      ctx.fillStyle = "rgba(20, 24, 38, 0.85)";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(-cw / 2, -ch / 2, cw, ch, 24);
+      ctx.fill();
+      ctx.stroke();
+
+      // Inner Card Content
+      ctx.shadowBlur = 0;
+      ctx.font = "bold 22px 'Cairo'";
+      ctx.fillStyle = props.colorSecondary;
+      ctx.textAlign = "center";
+      ctx.fillText(props.badge, 0, -ch * 0.32);
+
+      ctx.font = "900 52px 'Cairo'";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(props.title, 0, -ch * 0.08);
+
+      ctx.font = "500 24px 'Cairo'";
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillText(props.subtitle, 0, ch * 0.12);
+
+      // Interactive Action Pill inside card
+      ctx.fillStyle = props.colorPrimary;
+      ctx.beginPath();
+      ctx.roundRect(-120, ch * 0.24, 240, 52, 26);
+      ctx.fill();
+
+      ctx.font = "bold 20px 'Cairo'";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("اكتشف الآن ✨", 0, ch * 0.3);
+
+      ctx.restore();
+    }
+
+    function renderStatsBoom() {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = "#060810";
+      ctx.fillRect(0, 0, w, h);
+
+      // Central circular shockwave
+      const waveP = (currentFrame % 90) / 90;
+      ctx.save();
+      ctx.strokeStyle = props.colorSecondary;
+      ctx.lineWidth = 3 * (1 - waveP);
+      ctx.beginPath();
+      ctx.arc(w / 2, h * 0.45, 120 + waveP * 200, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Metric Counter Animation
+      const numP = easeOutCubic(clamp(progress(15, 75), 0, 1));
+      const targetNum = parseInt(props.metric.replace(/\D/g, '')) || 850;
+      const currentNum = Math.floor(targetNum * numP);
+
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      ctx.font = "bold 28px 'Cairo'";
+      ctx.fillStyle = "#818cf8";
+      ctx.fillText(props.badge, w / 2, h * 0.25);
+
+      ctx.font = "900 130px 'JetBrains Mono', monospace";
+      ctx.fillStyle = "#ffffff";
+      ctx.shadowColor = props.colorPrimary;
+      ctx.shadowBlur = 35 * numP;
+      ctx.fillText("+" + currentNum + "%", w / 2, h * 0.45);
+
+      ctx.shadowBlur = 0;
+      ctx.font = "700 42px 'Cairo'";
+      ctx.fillStyle = "#f8fafc";
+      ctx.fillText(props.title, w / 2, h * 0.65);
+
+      ctx.font = "500 26px 'Cairo'";
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillText(props.subtitle, w / 2, h * 0.74);
+      ctx.restore();
+    }
+
+    function renderTerminal() {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = "#0c0d14";
+      ctx.fillRect(0, 0, w, h);
+
+      // Terminal Window
+      const tw = 860;
+      const th = 480;
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+
+      // Window Frame
+      ctx.fillStyle = "#161822";
+      ctx.strokeStyle = "#272a38";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(-tw / 2, -th / 2, tw, th, 16);
+      ctx.fill();
+      ctx.stroke();
+
+      // Window Header
+      ctx.fillStyle = "#1e2130";
+      ctx.beginPath();
+      ctx.roundRect(-tw / 2, -th / 2, tw, 48, [16, 16, 0, 0]);
+      ctx.fill();
+
+      // Window Buttons
+      ctx.fillStyle = "#ef4444";
+      ctx.beginPath();
+      ctx.arc(-tw / 2 + 30, -th / 2 + 24, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#eab308";
+      ctx.beginPath();
+      ctx.arc(-tw / 2 + 52, -th / 2 + 24, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#22c55e";
+      ctx.beginPath();
+      ctx.arc(-tw / 2 + 74, -th / 2 + 24, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Window Title
+      ctx.font = "14px 'JetBrains Mono', monospace";
+      ctx.fillStyle = "#94a3b8";
+      ctx.textAlign = "center";
+      ctx.fillText("agent@antigravity: ~/video-generator", 0, -th / 2 + 28);
+
+      // Terminal Typewriter Content
+      const fullCommand = "npx skills add remotion-dev/skills && ai generate --render";
+      const charCount = Math.floor(clamp(progress(15, 75), 0, 1) * fullCommand.length);
+      const typedText = fullCommand.substring(0, charCount);
+
+      ctx.textAlign = "left";
+      ctx.font = "20px 'JetBrains Mono', monospace";
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillText("$ " + typedText + (currentFrame % 30 < 15 ? "▋" : ""), -tw / 2 + 36, -th / 2 + 95);
+
+      if (currentFrame > 90) {
+        ctx.fillStyle = "#10b981";
+        ctx.fillText("✔ Video composition compiled in 480ms", -tw / 2 + 36, -th / 2 + 145);
+      }
+      if (currentFrame > 120) {
+        ctx.fillStyle = "#f59e0b";
+        ctx.fillText("✔ 60 FPS Spring animations injected", -tw / 2 + 36, -th / 2 + 185);
+      }
+      if (currentFrame > 150) {
+        ctx.fillStyle = "#a855f7";
+        ctx.fillText("✔ Output: out/viral-promo.mp4 ready!", -tw / 2 + 36, -th / 2 + 225);
+      }
+
+      ctx.restore();
+    }
+
+    function renderCurrentFrame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (currentTemplate === 'kinetic') {
+        renderKineticTypography();
+      } else if (currentTemplate === 'product') {
+        renderProductShowcase();
+      } else if (currentTemplate === 'stats') {
+        renderStatsBoom();
+      } else if (currentTemplate === 'terminal') {
+        renderTerminal();
+      }
+
+      // Update Slider and Time
+      timeSlider.value = currentFrame;
+      const currentSec = (currentFrame / fps).toFixed(2);
+      const totalSec = durationSec.toFixed(2);
+      timeDisplay.innerText = `${currentSec}s / ${totalSec}s`;
+    }
+
+    function loop() {
+      if (isPlaying) {
+        currentFrame++;
+        if (currentFrame >= totalFrames) {
+          currentFrame = 0;
+        }
+        renderCurrentFrame();
+      }
+      animationId = requestAnimationFrame(loop);
+    }
+
+    // Controls
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      playBtn.innerText = isPlaying ? "⏸️ إيقاف" : "▶️ تشغيل";
+    }
+
+    function resetPlay() {
+      currentFrame = 0;
+      renderCurrentFrame();
+    }
+
+    function stepForward() {
+      isPlaying = false;
+      playBtn.innerText = "▶️ تشغيل";
+      currentFrame = Math.min(totalFrames - 1, currentFrame + 5);
+      renderCurrentFrame();
+    }
+
+    function stepBack() {
+      isPlaying = false;
+      playBtn.innerText = "▶️ تشغيل";
+      currentFrame = Math.max(0, currentFrame - 5);
+      renderCurrentFrame();
+    }
+
+    function seekToFrame(frame) {
+      isPlaying = false;
+      playBtn.innerText = "▶️ تشغيل";
+      currentFrame = parseInt(frame);
+      renderCurrentFrame();
+    }
+
+    function selectTemplate(tmpl) {
+      currentTemplate = tmpl;
+      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      currentFrame = 0;
+      renderCurrentFrame();
+    }
+
+    function changeAspectRatio(ratio) {
+      const wrapper = document.getElementById('canvasWrapper');
+      wrapper.className = `canvas-wrapper aspect-${ratio}`;
+      if (ratio === '9-16') {
+        canvas.width = 1080;
+        canvas.height = 1920;
+      } else if (ratio === '16-9') {
+        canvas.width = 1920;
+        canvas.height = 1080;
+      } else if (ratio === '1-1') {
+        canvas.width = 1080;
+        canvas.height = 1080;
+      }
+      renderCurrentFrame();
+    }
+
+    function changeDuration(sec) {
+      durationSec = parseInt(sec);
+      totalFrames = durationSec * fps;
+      timeSlider.max = totalFrames;
+      currentFrame = 0;
+      renderCurrentFrame();
+    }
+
+    function applyProps() {
+      props.title = document.getElementById('propTitle').value;
+      props.subtitle = document.getElementById('propSubtitle').value;
+      props.badge = document.getElementById('propBadge').value;
+      props.metric = document.getElementById('propMetric').value;
+      props.colorPrimary = document.getElementById('propColorPrimary').value;
+      props.colorSecondary = document.getElementById('propColorSecondary').value;
+      props.colorBg = document.getElementById('propColorBg').value;
+
+      document.documentElement.style.setProperty('--accent', props.colorPrimary);
+      document.documentElement.style.setProperty('--accent-secondary', props.colorSecondary);
+
+      currentFrame = 0;
+      renderCurrentFrame();
+    }
+
+    // --- Direct Video Exporter (Using MediaRecorder API) ---
+    async function exportVideo() {
+      const exportBtn = document.getElementById('exportBtn');
+      exportBtn.disabled = true;
+      exportBtn.innerText = "⏳ جاري التسجيل والرندر...";
+      toast.style.display = "block";
+      toast.innerText = "جاري التقاط الفريمات وتسجيل الفيديو 60 FPS...";
+
+      const stream = canvas.captureStream(60);
+      const recordedChunks = [];
+
+      let mimeType = 'video/webm;codecs=vp9';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'video/webm';
+      }
+
+      const recorder = new MediaRecorder(stream, {
+        mimeType: mimeType,
+        videoBitsPerSecond: 8000000 // 8 Mbps for sharp crisp video
+      });
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `motion-video-${currentTemplate}-${Date.now()}.webm`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        exportBtn.disabled = false;
+        exportBtn.innerText = "🎥 تصدير الفيديو (MP4/WebM)";
+        toast.innerText = "🎉 تم تنزيل الفيديو بنجاح!";
+        setTimeout(() => { toast.style.display = "none"; }, 3500);
+      };
+
+      // Restart from frame 0 and record one complete loop
+      isPlaying = false;
+      currentFrame = 0;
+      recorder.start();
+
+      const recordInterval = 1000 / fps;
+      const recordTimer = setInterval(() => {
+        currentFrame++;
+        renderCurrentFrame();
+
+        if (currentFrame >= totalFrames) {
+          clearInterval(recordTimer);
+          recorder.stop();
+          isPlaying = true;
+        }
+      }, recordInterval);
+    }
+
+    // Start
+    animationId = requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

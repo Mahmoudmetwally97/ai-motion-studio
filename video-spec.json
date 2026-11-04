@@ -1,0 +1,12 @@
+{
+  "title": "أهلاً بكم في استوديو الموشن",
+  "subtitle": "تم بناء النظام بنجاح",
+  "badge": "🔥 إطلاق جديد 2026",
+  "metric": "+850%",
+  "template": "kinetic",
+  "aspect": "16-9",
+  "duration": 5,
+  "colorPrimary": "#6366f1",
+  "colorSecondary": "#ec4899",
+  "output": "video-spec.json"
+}
